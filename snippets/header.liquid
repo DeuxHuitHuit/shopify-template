@@ -1,0 +1,13 @@
+<header>
+	<div>
+		<div>
+			<select class="js-currency-selector">
+				{% for currency in shop.enabled_currencies %}
+					<option value="{{ currency.iso_code | escape }}">{{ currency.iso_code }}</option>
+				{% endfor %}
+			</select>
+			<div class="js-locale"></div>
+		</div>
+		{% render 'nav' %}
+	</div>
+</header>

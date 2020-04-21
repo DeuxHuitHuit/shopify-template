@@ -1,0 +1,117 @@
+<section>
+	{% assign current_variant = product.selected_or_first_available_variant %}
+	{% assign featured_image = current_variant.featured_image | default: product.featured_image %}
+
+	<div>
+		{% for image in product.images %}
+			<div class="{% if forloop.first %}js-variants-image {% endif %}">
+				{% render 'image', image: image %}
+			</div>
+		{% endfor %}
+	</div>
+
+	<div>
+		<h1>{{ product.title }}</h1>
+		<div class="js-variants-price-ctn">
+			<p class="price js-variants-price">{{product.price | money}}</p>
+			<p class="price js-variants-price-compare">{{product.compare_at_price | money}}</p>
+		</div>
+		<div>{{ product.description }}</div>
+		<div class="inputs-ctn">
+			<div class="options-ctn">
+			{% unless product.has_only_default_variant %}
+				{% for option in product.options_with_values %}
+					<label for="option-{{ option.position }}">
+						{{ option.name }}
+					</label>
+					<select class="js-variant-selector" id="option-{{ option.position }}" name="options[{{ option.name | escape }}]">
+						{% for value in option.values %}
+							<option value="{{ value | escape }}" {% if option.selected_value == value %} selected="selected" {% endif %}>
+								{{ value }}
+							</option>
+						{% endfor %}
+					</select>
+				{% endfor %}
+			{% endunless %}
+			</div>
+			<div class="input-ctn">
+				<label for="qte">{{ 'products.quantity' | t }}</label>
+				<input class="js-add-to-cart-qte" id="qte" min="1" name="quantity" type="number" value="1">
+			</div>
+			<button class="js-add-to-cart primary" data-available-text="{{ 'products.add_to_cart' | t }}" data-out-of-stock-text="{{ 'products.sold_out' | t }}">
+				{{ 'products.add_to_cart' | t }}
+			</button>
+		</div>
+		
+	</div>
+
+	{% section 'product-recommendations' %}
+
+	<script class="js-variants-data" type="application/json">
+		[
+			{% for variant in product.variants %}
+			{
+				"id": {{ variant.id | json }},
+				"url": {{ variant.url | json }},
+				"title": {{ variant.title | json }},
+				"available": {{ variant.available | json }},
+				"price": {
+					"text": {{ variant.price | money | json}},
+					"value": {{ variant.price | json }}
+				},
+				"compare_at_price": {
+					"text": {{ variant.compare_at_price | money | json }},
+					"value": {{ variant.compare_at_price | json }}
+				},
+				"image": {% if variant.image %}{{ variant.image | json }}{% else %}{{ product.featured_image | json }}{% endif %},
+				"option1": {{ variant.option1 | json }},
+				"option2": {{ variant.option2 | json }},
+				"option3": {{ variant.option3 | json }}
+			}{% if forloop.last != true %},{% endif %}{% endfor %}
+		]
+	</script>
+</section>
+
+<script type="application/ld+json">
+{
+	"@context": "http://schema.org/",
+	"@type": "Product",
+	"name": {{ product.title | strip_html | json }},
+	"url": "{{ shop.url }}{{ product.url }}",
+	{% if product.variants.first.sku != blank %}
+		"sku": "{{ product.variants.first.sku }}",
+	{% else %}
+		"sku": "{{ product.variants.first.id }}",
+	{% endif %}
+	{% if product.variants.first.barcode.size == 12 %}
+		"gtin12": {{ product.variants.first.barcode }},
+	{% endif %}
+	{% if product.variants.first.barcode.size == 13 %}
+		"gtin13": {{ product.variants.first.barcode }},
+	{% endif %}
+	{% if product.variants.first.barcode.size == 14 %}
+		"gtin14": {{ product.variants.first.barcode }},
+	{% endif %}
+	"productID": "{{ product.id }}",
+	"brand": {
+		"@type": "Thing",
+		"name": {{ product.vendor | json }}
+	},
+	"description": {{ product.description | strip_html | json }},
+	"image": "https:{{ product.featured_image.src | img_url }}",
+	"offers": [
+		{% for variant in product.variants %}
+			{
+				"@type": "Offer",
+				"price": "{{ variant.price | money_without_currency }}",
+				"priceCurrency": "{{ shop.currency }}",
+				"availability": {% if variant.available %}"http://schema.org/InStock"{% else %}"http://schema.org/OutOfStock"{% endif %},
+				"url": "{{ variant.url }}",
+				"name": "{{ product.title }} - {{ variant.title }}",
+				"itemCondition": "http://schema.org/NewCondition",
+				"priceValidUntil": "{{ 'now' | date: '%s' | plus: 31536000 | date: '%Y-%m-%d' | uri_encode | replace:'+','%20' }}"
+			}{% if forloop.last != true %},{% endif %}
+		{% endfor %}
+	]
+}
+</script>

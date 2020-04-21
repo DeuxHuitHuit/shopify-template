@@ -1,0 +1,47 @@
+<section>
+	<h1>{{ 'customer.login.title' | t }}</h1>
+
+	<div class="form-ctn">
+		{% form 'customer_login' %}
+			{{ form.errors | default_errors }}
+			<label for="CustomerEmail">{{ 'customer.login.email' | t }}</label>
+			<input type="email" name="customer[email]" id="CustomerEmail" class="{% if form.errors contains 'email' %}has-error{% endif %}" placeholder="{{ 'customer.login.email' | t }}" spellcheck="false" autofocus>
+			{% if form.password_needed %}
+				<label for="CustomerPassword">{{ 'customer.login.password' | t }}</label>
+				<input type="password" name="customer[password]" id="CustomerPassword" class="{% if form.errors contains 'password' %}has-error{% endif %}" placeholder="{{ 'customer.login.password' | t }}">
+			{% endif %}
+			<button type="submit">{{ 'customer.login.submit' | t }}</button>
+			{% if form.password_needed %}
+				<button type="button">{{ 'customer.login.forgot_password' | t }}</button>
+			{% endif %}
+			<a href="{{ routes.account_register_url }}">{{ 'customer.login.register' | t }}</a>
+		{% endform %}
+	</div>
+
+	<div class="form-ctn">
+		<h2>{{ 'customer.recover_password.title' | t }}</h2>
+		<p>{{ 'customer.recover_password.text' | t }}</p>
+
+		{% form 'recover_customer_password' %}
+			{% if form.posted_successfully? %}
+				<p>{{ 'customer.recover_password.email_sent' | t }}</p>
+			{% else %}
+				<p class="errors">{{ form.errors | default_errors }}</p>
+			{% endif %}
+
+			<label for="RecoverEmail">{{ 'customer.recover_password.email' | t }}</label>
+			<input type="email" name="email" id="RecoverEmail" placeholder="{{ 'customer.recover_password.email' | t }}" spellcheck="false">
+			<button type="submit">{{ 'customer.recover_password.submit' | t }}</button>
+			<button type="button">{{ 'customer.login.submit' | t }}</button>
+		{% endform %}
+	</div>
+
+	{% if shop.checkout.guest_login %}
+		<h2>{{ 'customer.login.guest_title' | t }}</h2>
+
+		{% form 'guest_login' %}
+			<button type="submit">{{ 'customer.login.guest_continue' | t }}</button>
+		{% endform %}
+	{% endif %}
+
+</section>

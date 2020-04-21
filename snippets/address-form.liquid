@@ -1,0 +1,63 @@
+{% form 'customer_address', address %}
+ 	{% if type == 'edit' %}	
+		<h2>{{ 'customer.addresses.edit' | t }}</h2>
+	{% elsif type == 'create' %}
+		<h2>{{ 'customer.addresses.create' | t }}</h2>
+	{% endif %}
+	<div>
+		<fieldset>
+			<label for="AddressFirstName{{ id }}">{{ 'customer.addresses.form.first_name' | t }}</label>
+			<input type="text" name="address[first_name]" id="AddressFirstName{{ id }}" value="{{ form.first_name }}" autocapitalize="words" placeholder="{{'customer.addresses.form.first_name' | t}}" >
+		</fieldset>
+		<fieldset>
+			<label for="AddressLastName{{ id }}">{{ 'customer.addresses.form.last_name' | t }}</label>
+			<input type="text" name="address[last_name]" id="AddressLastName{{ id }}" value="{{ form.last_name }}" autocapitalize="words" placeholder="{{ 'customer.addresses.form.last_name' | t }}" >
+		</fieldset>
+	</div>
+	<fieldset>
+		<label for="AddressCompany{{ id }}">{{ 'customer.addresses.form.company' | t }}</label>
+		<input type="text" name="address[company]" id="AddressCompany{{ id }}" value="{{ form.company }}" autocapitalize="words" placeholder="{{ 'customer.addresses.form.company' | t }}">
+	</fieldset>
+	<fieldset>
+		<label for="AddressAddress1{{ id }}">{{ 'customer.addresses.form.address1' | t }}</label>
+		<input type="text" name="address[address1]" id="AddressAddress1{{ id }}" value="{{ form.address1 }}" autocapitalize="words" placeholder="{{ 'customer.addresses.form.address1' | t }}">
+	</fieldset>
+	<fieldset>
+		<label for="AddressAddress2{{ id }}">{{ 'customer.addresses.form.address2' | t }}</label>
+		<input type="text" name="address[address2]" id="AddressAddress2{{ id }}" value="{{ form.address2 }}" autocapitalize="words" placeholder="{{ 'customer.addresses.form.address2' | t }}">
+	</fieldset>
+	<div>
+		<fieldset>
+			<label for="AddressCity{{ id }}">{{ 'customer.addresses.form.city' | t }}</label>
+			<input type="text" name="address[city]" id="AddressCity{{ id }}" value="{{ form.city }}" autocapitalize="words" placeholder="{{ 'customer.addresses.form.city' | t }}">
+		</fieldset>
+		<fieldset class="js-country-selector-ctn">
+			<label for="AddressCountry{{ id }}">{{ 'customer.addresses.form.country' | t }}</label>
+			<select name="address[country]" id="AddressCountry{{ id }}" class="js-country-selector" data-country={{ country }}>{{ all_country_option_tags }}</select>
+		</fieldset>
+		<fieldset>
+			<label for="AddressProvince{{ id }}">{{ 'customer.addresses.form.province' | t }}</label>
+			<select name="address[province]" id="AddressProvince{{ id }}" class="js-country-selector-province" data-province={{ province }}></select>
+		</fieldset>
+	</div>
+	<fieldset>
+		<label for="AddressZip{{ id }}">{{ 'customer.addresses.form.zip' | t }}</label>
+		<input type="text" name="address[zip]" id="AddressZip{{ id }}" value="{{ form.zip }}" autocapitalize="characters" placeholder="{{ 'customer.addresses.form.zip' | t }}">
+	</fieldset>
+	<fieldset>
+		<label for="AddressPhone{{ id }}">{{ 'customer.addresses.form.phone' | t }}</label>
+		<input type="tel" name="address[phone]" id="AddressPhone{{ id }}" value="{{ form.phone }}" pattern="[0-9\-]*" placeholder="{{ 'customer.addresses.form.phone' | t }}">
+	</fieldset>
+	<fieldset>
+		{% if type == 'create' %}
+		<input type="checkbox" name="address[default]" id="address_default_address_{{ id }}" value="1" checked="{{ form.default }}" />
+		{% elsif type == 'edit' %}
+		{{ form.set_as_default_checkbox }}
+		{% endif %}
+		<label for="address_default_address_{{ id }}">{{ 'customer.addresses.form.set_as_default' | t }}</label>
+	</fieldset>
+	<button class="primary" type="submit">{{ submit_label | t }}</button>
+	{% if type == 'edit' %}
+		<button type="button">{{ 'customer.addresses.cancel_edit' | t }}</button>
+	{% endif %}
+{% endform %}

@@ -1,0 +1,15 @@
+<h1>{{ page_title }}</h1>
+
+{% for collection in collections %}
+	<article>
+		<a href="{{ collection.url }}">
+			{% if collection.image != blank%}
+				{% render 'image', image: collection.image %}
+			{% else %}
+		</a>
+
+		<a href="{{ collection.url }}">
+			<h1>{{ collection.title }}</h1>
+		</a>
+	</article>
+{% endfor %}

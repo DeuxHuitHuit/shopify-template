@@ -1,0 +1,56 @@
+<section>
+	<div>
+		<h1>{{ 'cart.title' | t }}</h1>
+		<a class="button" href="/">
+			{{ 'cart.continue_shopping' | t }}
+			<div class="button-underline"></div>
+		</a>
+	</div>
+
+	{% if cart.item_count > 0 %}
+		<form action="/cart" method="post" novalidate>
+			<ul>
+				{% for item in cart.items %}
+					<li>
+						{% if item.image != blank %}
+							<a href="{{ item.url | within: collections.all }}">
+								{% render 'image', image: item.image %}
+							</a>
+						{% endif %}
+
+						<div>
+							<a href="{{ item.url }}">{{ item.product.title }}</a>
+							{% unless item.product.has_only_default_variant %}
+								<p>{{ item.variant.title }}</p>
+							{% endunless %}
+							<input type="number" value="{{ item.quantity }}" data-id="{{ item.id }}" class="js-cart-qte" min="1" aria-label="{{ 'cart.item_quantity' | t }}"/>
+							<p class="js-cart-item-total">{{ item.line_price | money }}</p>
+							<button class="js-cart-qte-btn" data-id="{{ item.id }}" data-qte="0">{{ 'cart.product.remove' | t }}</button>
+						</div>
+					</li>
+				{% endfor %}
+			</ul>
+			<div>
+				<div>
+					<p>{{ 'cart.subtotal' | t }}</p>
+					<p class="js-cart-total">{{ cart.total_price | money }}</p>
+				</div>
+
+				<p class="js-cart-discounts-ctn">{{ 'cart.discounts' | t }}
+					<span class="js-cart-discounts">{{ cart.total_discounts | money }}</span>
+				</p>
+
+				<p>{{ 'cart.shipping_at_checkout' | t }}</p>
+
+				<button type="submit" name="checkout">{{ 'cart.checkout' | t }}</button>
+			</div>
+		</form>
+	{% else %}
+		<h2>{{ 'cart.empty' | t }}</h2>
+		<a class="button" href="/">
+			{{ 'cart.continue_shopping' | t }}
+			<div class="button-underline"></div>
+		</a>
+	{% endif %}
+
+</section>

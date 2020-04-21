@@ -1,0 +1,40 @@
+<script type="application/ld+json">
+	{
+		"@context": "http://schema.org",
+		"@type": "Organization",
+		"url": {{ shop.domain | json }},
+		"logo": {
+			"@type": "ImageObject",
+			"url": "https:{{ 'logotype.svg' | asset_url }}"
+		},
+		"name": {{ shop.name | json }},
+		"contactPoint": [
+			{
+				"@type": "ContactPoint",
+				"telephone": {{ shop.phone | json }},
+				"email": {{ shop.email | json }},
+				"contactType": "customer service"
+			}
+		],
+		"address": {
+			"@type": "PostalAddress",
+			"streetAddress": {{ shop.address.street | json }},
+			"addressLocality": {{ shop.address.city | json }},
+			"addressRegion": {{ shop.address.province | json }},
+			"postalCode": {{ shop.address.zip | json }},
+			"addressCountry": {{ shop.address.country | json }}
+		}
+	}
+</script>
+<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "WebSite",
+		"url": {{ shop.domain | json }},
+		"potentialAction": {
+			"@type": "SearchAction",
+			"target": "https://{{ shop.domain }}{{ routes.search_url }}?q={search_term_string}",
+			"query-input": "required name=search_term_string"
+		}
+	}
+</script>

@@ -1,0 +1,19 @@
+{% paginate blog.articles by 2 %}
+	{%- assign blog_title = blog.title -%}
+	{% if current_tags %}
+		{% capture blog_title %}{{ blog.title | link_to: blog.url }} &mdash; {{ current_tags.first }}{% endcapture %}
+	{% endif %}
+	{% capture blog_subtitle %}
+		{{'blog.text' | t}}
+	{% endcapture %}
+
+	<section>
+		{% for article in blog.articles %}
+			{% render 'card-article', article: article %}
+		{% endfor %}
+		{% if paginate.pages > 1 %}
+			{% render 'pagination', paginate: paginate %}
+		{% endif %}
+	</section>
+
+{% endpaginate %}
