@@ -1,0 +1,219 @@
+{
+	"interface": {
+		"nav": {
+			"search": "search",
+			"account": "account",
+			"cart": "cart",
+			"menu": "menu",
+			"close": "close",
+			"back": "Back"
+		},
+		"search": {
+			"placeholder": "Search anything",
+			"clear": "Clear search",
+			"see-all": "See all results",
+			"no-results": "No results",
+			"collection": "Collections",
+			"articles": "Articles",
+			"pages": "Pages",
+			"products": "Products"
+		},
+		"cart": {
+			"close": "close",
+			"checkout": "Proceed to checkout",
+			"remove": "remove",
+			"subtotal": "Subtotal"
+		},
+		"customer": {
+			"logout": "Logout",
+			"dashboard": "Dashbord",
+			"orders": "Orders"
+		}
+	},
+	"customer": {
+		"login": {
+			"title": "Login",
+			"email": "Email",
+			"password": "Password",
+			"forgot_password": "Forgot password ?",
+			"register": "Register",
+			"submit": "Sign in",
+			"guest_title": "Guest login",
+			"guest_continue": "Continue as guest"
+		},
+		"recover_password": {
+			"title": "Recover password",
+			"text": "Enter your email to recover your password",
+			"email": "Email",
+			"submit": "Recover",
+			"email_sent": "The password reset link was sent to your email."
+		},
+		"reset_password": {
+			"title": "Reset your password",
+			"text": "TO FILL reset your password text",
+			"password": "Password",
+			"password_confirm": "Password confirmation",
+			"submit": "Reset"
+		},
+		"activate": {
+			"title": "Activate your account",
+			"text": "TO FILL promo text",
+			"password": "Password",
+			"password_confirm": "Password confirmation",
+			"submit": "Activate",
+			"cancel": "Cancel the activation"
+		},
+		"dashboard": {
+			"title": "My Account",
+			"view": "Dashboard",
+			"orders": "Orders",
+			"addresses": "Addresses",
+			"logout": "Logout"
+		},
+		"addresses": {
+			"title": "My addresses",
+			"create": "Add Address",
+			"view": "View Addresses",
+			"edit": "Edit Address",
+			"cancel_edit": "Cancel",
+			"delete": "Remove Address",
+			"default": "Default Address",
+			"form": {
+				"first_name": "First Name",
+				"last_name": "Last Name",
+				"company": "Company",
+				"address1": "Address 1",
+				"address2": "Address 2",
+				"city": "City",
+				"province": "Province",
+				"country": "Country",
+				"zip": "Zip code",
+				"phone": "Phone",
+				"set_as_default": "Set as default",
+				"create": "Create",
+				"update": "Update"
+			}
+		},
+		"orders": {
+			"title": "My Account",
+			"number": "Order number",
+			"date": "Date",
+			"order_status": "Order Status",
+			"payment_status": "Payment",
+			"fulfillment_status": "Status",
+			"total": "Total",
+			"product": {
+				"product": "Product",
+				"sku": "Sku",
+				"price": "Price",
+				"quantity": "Quantity",
+				"total": "Total"
+			},
+			"tax": "Tax",
+			"shipping": "Shipping",
+			"subtotal": "Subtotal",
+			"tracking_company": "Shipping company",
+			"fulfilled_at": "Shipped at",
+			"billing_address": "Billing Address",
+			"shipping_address": "Shipping Address",
+			"tracking_url": "Track your order",
+			"tracking_number": "Tracking number",
+			"none": "No order yet"
+		},
+		"register": {
+			"title": "Create your account",
+			"form": {
+				"first_name": "First name",
+				"last_name": "Last name",
+				"email": "Email",
+				"password": "Password",
+				"submit": "Create"
+			}
+		}
+	},
+	"cart": {
+		"title": "Cart",
+		"product": {
+			"product": "Product",
+			"price": "Price",
+			"quantity": "Quantity",
+			"total": "Total",
+			"remove": "Remove",
+			"discounted_price": "Discounted price",
+			"original_price": "Original price"
+		},
+		"subtotal": "Subtotal",
+		"shipping_at_checkout": "Total and Shipping calculated at checkout",
+		"checkout": "Proceed to checkout",
+		"empty": "Your cart is empty",
+		"continue_shopping": "Continue shopping",
+		"discounts": "You are saving"
+	},
+	"products": {
+		"quantity": "Quantity",
+		"add_to_cart": "Add to cart",
+		"sold_out": "Sorry, this product is sold out",
+		"see_also": "You might be interested in"
+	},
+	"collections": {
+		"sort_by": "Sort by",
+		"products": "products"
+	},
+	"pages": {},
+	"blog": {
+		"text": "TO FILL blog.text",
+		"load_more_articles": "Load more articles",
+		"articles": {
+			"last_articles": "Last articles",
+			"read": "Read the article"
+		},
+		"comments": {
+			"title": "Comments",
+			"name": "Name",
+			"email": "Email",
+			"message": "Message",
+			"comments_are_moderated": "Comments are moderated",
+			"success_moderated": "Your comment has been received",
+			"success": "Thank you for your comment!",
+			"post": "Post",
+			"with_count": "comments",
+			"by": "By",
+			"the": "the",
+			"pending": "Pending moderation"
+		}
+	},
+	"gift_cards": {
+		"title": "Gift cards",
+		"text": "",
+		"initial_value": "Initial value",
+		"redeem": "Redeem",
+		"shop_link": "Start shoping",
+		"remaining": "Remaining",
+		"print": "Print",
+		"expired": "Your gift card",
+		"active": "Your gift card is active",
+		"disabled": "Your gift card is disabled",
+		"add_to_apple_wallet": "Add to your Apple Wallet"
+	},
+	"search": {
+		"title": "Search",
+		"no_results": "No results found",
+		"placeholder": "search",
+		"submit": "Submit",
+		"results_found": "results found"
+	},
+	"contact": {
+		"form": {
+			"name": "Name",
+			"email": "Email",
+			"phone": "Phone",
+			"message": "Message",
+			"submit": "Submit",
+			"post_success": "Success"
+		}
+	},
+	"404": {
+		"title": "404",
+		"text": "Not found"
+	}
+}

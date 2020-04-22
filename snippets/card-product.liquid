@@ -1,0 +1,27 @@
+<article>
+	<a href={{ product.url }}>
+		{% render: 'image', image: product.images[0] %}
+	</a>
+	<div>
+		{% capture price %}
+			{% if product.price_varies == true %}
+				{{ product.price_min | money }}
+			{% else %}
+				{{ product.price | money }}
+			{% endif %}
+		{% endcapture %}
+
+		{% if product.compare_at_price %}
+			<div class="has-compare-price">
+				<p class="price">{{ product.compare_at_price | money }}</p>
+				<p>{{ price }}</p>
+			</div>
+		{% else %}
+			<p>{{ price }}</p>
+		{% endif %}
+
+		<h1>
+			<a href="{{ product.url }}">{{ product.title }}</a>
+		</h1>
+	</div>
+</article>

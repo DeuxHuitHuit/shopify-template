@@ -1,0 +1,12 @@
+{% paginate collection.products by 12 %}
+	<h1>{{ collection.title }}</h1>
+	{% if collection.description != blank %}
+		<p>{{ collection.description }}</p>
+	{% endif %}
+	{% for product in collection.products %}
+		{% render 'card-product', product: product %}
+	{% endfor %}
+	{% if paginate.pages > 1 %}
+		{% render 'pagination', paginate: paginate %}
+	{% endif %}
+{% endpaginate %}

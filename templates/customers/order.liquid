@@ -1,0 +1,91 @@
+<article>
+	<h1>{{ 'customer.orders.title' | t }}</h1>
+	<section>
+		<h2>{{ 'customer.orders.number' | t }}: {{ order.name }}</h2>
+		<span>{{ 'customer.orders.date' | t }}: {{ order.created_at | date: format: 'date' }}</span>
+		<a href="{{ order.order_status_url }}">{{ 'customer.orders.order_status' | t }}</a>
+		{% if order.cancelled %}
+			<p>{{ 'customer.order.cancelled' | t }}<span>{{ order.cancelled_at | date: format: 'date' }}</span></p>
+			<p>{{ order.cancel_reason }}</p>
+		{% endif %}
+		<table>
+			<thead>
+				<tr>
+					<th>{{ 'customer.orders.product.product' | t }}</th>
+					<th>{{ 'customer.orders.product.price' | t }}</th>
+					<th>{{ 'customer.orders.product.quantity' | t }}</th>
+					<th>{{ 'customer.orders.product.total' | t }}</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for line_item in order.line_items %}
+					<tr>
+						<td>
+							{{ line_item.title | link_to: line_item.product.url }}
+							<p>{{ 'customer.orders.product.sku' | t }}&nbsp;{{ line_item.sku }}</p>
+						</td>
+						<td>{{ line_item.price | money }}</td>
+						<td>{{ line_item.quantity }}</td>
+						<td>{{ line_item.quantity | times: line_item.price | money }}</td>
+					</tr>
+				{% endfor %}
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td></td>
+					<td>{{ 'customer.orders.subtotal' | t }}</td>
+					<td></td>
+					<td>{{ order.line_items_subtotal_price | money }}</td>
+				</tr>
+				{% for discount in order.discounts %}
+					<tr>
+						<td></td>
+						<td>{{ discount.code }} {{ 'customer.orders.discount' | t }}</td>
+						<td></td>
+						<td>{{ discount.savings | money }}</td>
+					</tr>
+				{% endfor %}
+				{% for shipping_method in order.shipping_methods %}
+					<tr>
+						<td></td>
+						<td>{{ 'customer.orders.shipping' | t }} ({{ shipping_method.title }})</td>
+						<td></td>
+						<td>{{ shipping_method.price | money }}</td>
+					</tr>
+				{% endfor %}
+				{% for tax_line in order.tax_lines %}
+					<tr>
+						<td></td>
+						<td>{{ 'customer.orders.tax' | t }} ({{ tax_line.title }} {{ tax_line.rate | times: 100 }}%)</td>
+						<td></td>
+						<td>{{ tax_line.price | money }}</td>
+					</tr>
+				{% endfor %}
+				<tr>
+					<td></td>
+					<td>{{ 'customer.orders.total' | t }}</td>
+					<td></td>
+					<td>{{ order.total_price | money }} {{ order.currency }}</td>
+				</tr>
+			</tfoot>
+		</table>
+		
+		<div>
+			<span>{{ 'customer.orders.billing_address' | t }}</span>
+			<span>{{ 'customer.orders.payment_status' | t }}: {{ order.financial_status_label }}</span>
+			{{ order.billing_address | format_address }}
+		</div>
+			
+		<div>
+			<span>{{ 'customer.orders.shipping_address' | t }}</span>
+			<span>{{ 'customer.orders.fulfillment_status' | t }}: {{ order.fulfillment_status_label }}</span>
+			{{ order.shipping_address | format_address }}
+		</div>
+	</section>
+</article>

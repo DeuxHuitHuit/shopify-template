@@ -1,0 +1,21 @@
+[
+	{
+		"name": "theme_info",
+		"theme_name": "<THEME NAME>",
+		"theme_version": "0.1.0",
+		"theme_author": "Deux Huit Huit",
+		"theme_documentation_url": "https:\/\/deuxhuithuit.com",
+		"theme_support_url": "https://gestion.deuxhuithuit.com/5/"
+	},
+	{
+		"name": "Social Medias",
+		"settings": [
+			{
+				"id": "og_image",
+				"type": "image_picker",
+				"label": "Default shared image",
+				"info": "This image will be shown by default on social medias if no image was set on the current shared page."
+			}
+		]
+	}
+]

@@ -1,0 +1,155 @@
+<article role="article">
+	<header role="banner">
+		<h1>{{ article.title }}</h1>
+		<p class="date">{{ article.published_at | date: format: 'date' }}</p>
+	</header>
+
+	{% if article.image %}
+		{% render 'image', image: article.image %}
+	{% endif %}
+
+	<div>
+		{{ article.content }}
+	</div>
+
+	{% if article.tags.size > 0 %}
+		<ul>
+			{% for tag in article.tags %}
+				<li>
+					<a href="{{ blog.url }}/tagged/{{ tag | handle }}">{{ tag }}</a>{% unless forloop.last %}, {% endunless %}
+				</li>
+			{% endfor %}
+		</ul>
+	{% endif %}
+
+	{% if blog.comments_enabled? %}
+		<h3>{{ article.comments_count }} {{ 'blog.comments.with_count' | t }}</h3>
+
+		{% paginate article.comments by 5 %}
+
+		<div id="comments">
+			{% if comment and comment.status and comment.id != blank and paginate.current_page == 1 %}
+				<p>
+					{% if blog.moderated? and comment.status != 'published' %}
+						{{ 'blog.comments.success_moderated' | t }}
+					{% else %}
+						{{ 'blog.comments.success' | t }}
+					{% endif %}
+				</p>
+			{% endif %}
+
+			{% if article.comments_count > 0 %}
+				<ul>
+					{% for comment in article.comments %}
+						<li id="{{ comment.id }}">
+							<div class="rte">
+								{{ comment.content }}
+							</div>
+							<span>{{ 'blog.comments.by' | t }} {{ comment.author }}</span>
+							<span>{{ 'blog.comments.the' | t }} {{ comment.created_at | date: format: 'date' }}</span>
+						</li>
+					{% endfor %}
+					{% if comment and comment.status != 'published' and comment.id != blank %}
+						<li id="{{ comment.id }}">
+							<span class="pending">{{ 'blog.comments.pending' | t }}</span>
+							<div class="rte">
+								{{ comment.content }}
+							</div>
+							<span>{{ 'blog.comments.by' | t }} {{ comment.author }}</span>
+							<span>{{ 'blog.comments.the' | t }} {{ comment.created_at | date: format: 'date' }}</span>
+						</li>
+					{% endif %}
+				</ul>
+
+				{% if paginate.pages > 1 %}
+					{% render 'pagination', paginate: paginate %}
+				{% endif %}
+			{% endif %}
+		</div>
+
+		{% endpaginate %}
+
+		{% form 'new_comment', article %}
+			<h3>{{ 'blog.comments.title' | t }}</h3>
+
+			{{ form.errors | default_errors }}
+
+			<label for="CommentAuthor">{{ 'blog.comments.name' | t }}</label>
+			<input type="text" name="comment[author]" id="CommentAuthor" class="{% if form.errors contains 'author' %}input-error{% endif %}" placeholder="{{ 'blog.comments.name' | t }}" value="{{ form.author }}" />
+
+			<label for="CommentEmail">{{ 'blog.comments.email' | t }}</label>
+			<input type="email" name="comment[email]" id="CommentEmail" placeholder="{{ 'blog.comments.email' | t }}" value="{{ form.email }}" spellcheck="false" autocapitalize="off">
+
+			<label for="CommentBody">{{ 'blog.comments.message' | t }}</label>
+			<textarea name="comment[body]" id="CommentBody" class="{% if form.errors contains 'body' %}input-error{% endif %}" placeholder="{{ 'blog.comments.message' | t }}">
+				{{- form.body -}}
+			</textarea>
+
+			{% if blog.moderated? %}
+				<p>{{ 'blog.comments.comments_are_moderated' | t }}</p>
+			{% endif %}
+
+			<input type="submit" class="button" value="{{ 'blog.comments.post' | t }}">
+		{% endform %}
+
+	{% endif %}
+
+</article>
+
+<aside>
+	{% for a in blog.articles | sort: "published_at" | reverse | limit: 4 %}
+		{% if article.url != a.url %}
+			{% render 'card-article', article: a %}
+		{% endif %}
+	{% endfor %}
+</aside>
+
+<script type="application/ld+json">
+{
+	"@context": "http://schema.org",
+	"@type": "Article",
+	"articleBody": "{{ article.content | strip_html }}",
+	"mainEntityOfPage": {
+		"@type": "WebPage",
+		"@id": "{{ shop.url }}{{ page.url }}"
+	},
+	"headline": "{{ article.title }}",
+	{% if article.excerpt != blank %}
+		"description": "{{ article.excerpt | strip_html }}",
+	{% endif %}
+	{% if article.image %}
+		{% assign image_size = article.image.width | append: 'x' %}
+		"image": [
+			"https:{{ article | img_url: image_size }}"
+		],
+	{% endif %}
+	"datePublished": "{{ article.published_at | date: '%Y-%m-%dT%H:%M:%SZ' }}",
+	"dateCreated": "{{ article.created_at | date: '%Y-%m-%dT%H:%M:%SZ' }}",
+	"dateModified": "{{ article.created_at | date: '%Y-%m-%dT%H:%M:%SZ' }}",
+	"author": {
+		"@type": "Person",
+		"name": "{{ article.author }}"
+	},
+	"publisher": {
+		"@type": "Organization",
+		{% if settings.share_image %}
+			{% assign image_size = settings.share_image.width | append: 'x' %}
+			"logo": {
+				"@type": "ImageObject",
+				"height": "{{ settings.share_image.height }}",
+				"url": "https:{{ settings.share_image | img_url: image_size }}",
+				"width": "{{ settings.share_image.width }}"
+			},
+		{% elsif article.image %}
+			{% assign image_size = article.image.width | append: 'x' %}
+			"logo": {
+				"@type": "ImageObject",
+				"height": "{{ article.image.height }}",
+				"url": "https:{{ article.image | img_url: image_size }}",
+				"width": "{{ article.image.width }}"
+			},
+		{% endif %}
+		"name": "{{ shop.name }}"
+	}
+}
+</script>

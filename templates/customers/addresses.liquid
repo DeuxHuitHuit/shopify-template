@@ -1,0 +1,32 @@
+<section>
+	{% paginate customer.addresses by 5 %}
+		<h1>{{ 'customer.addresses.title' | t }}</h1>
+
+		{% for address in customer.addresses %}
+			{% if address == customer.default_address %}
+				<p>{{ 'customer.addresses.default' | t }}</p>
+			{% endif %}
+
+			{{ address | format_address }}
+
+			<div>
+				<button type="button">{{ 'customer.addresses.edit' | t }}</button>
+				<form method="post" action="{{ routes.account_addresses_url }}/{{ address.id }}">
+					<input type="hidden" name="_method" value="delete"/>
+					<button type="submit">{{ 'customer.addresses.delete' | t }}</button>
+				</form>
+			</div>
+			
+			{% render 'address-form', type: 'edit', address: address, id: form.id, country: form.country, province: form.province, submit_label: 'customer.addresses.form.update' %}
+		{% endfor %}
+
+		<div class="form-ctn">
+			{% render 'address-form', type: 'create', address: customer.new_address, id: 'New', submit_label: 'customer.addresses.create' %}
+		</div>
+	
+		{% if paginate.pages > 1 %}
+			{% render 'pagination', paginate: paginate %}
+		{% endif %}
+	
+	{% endpaginate %}
+</section>

@@ -1,0 +1,29 @@
+{% paginate search.results by 12 %}
+	<section>
+		<h1>
+			{% if search.performed %}
+			{{ search.results_count }} {{ 'search.results_found' | t }}
+			{% else %}
+			{{ 'search.title' | t }}
+			{% endif %}
+		</h1>
+
+		<form action="/search" method="get" role="search">
+			<input type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'search.placeholder' | t }}" />
+			<button type="submit">{{ 'search.submit' | t }}</button>
+		</form>
+	</section>
+
+	<section>
+		{% if search.performed %}
+			{% for item in search.results %}
+				{% if item.object_type == 'product' %}
+					{% render 'card-product', product: item %}
+				{% endif %}
+			{% endfor %}
+			{% if paginate.pages > 1 %}
+				{% render 'pagination', paginate: paginate %}
+			{% endif %}
+		{% endif %}
+	</section>
+{% endpaginate %}

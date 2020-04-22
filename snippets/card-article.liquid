@@ -1,0 +1,8 @@
+<article>
+	<a href="{{ article.url }}">
+		{% render 'image', image: article.image %}
+	</a>
+	<p>{{ article.published_at | date: format: 'date' }}</p>
+	<h1>{{ article.title }}</h1>
+	<a href="{{ article.url }}">{{ 'blog.articles.read' | t }}</a>
+</article>

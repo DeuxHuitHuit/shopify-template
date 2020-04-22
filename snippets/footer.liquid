@@ -1,0 +1,20 @@
+<footer>
+	<nav>
+		<ul>
+			{% for link in linklists.footer.links %}
+				<li>
+					<a href="{{ link.url }}">{{ link.title }}</a>
+				</li>
+			{% endfor %}
+		</ul>
+	</nav>
+	<div>
+		{% for link in linklists.legal.links %}
+			<a href="{{ link.url }}">{{ link.title }}</a>
+		{% endfor %}
+		<div class="credits-ctn">
+			<span class="label">Credits</span>
+			<div class="watermark js-watermark-ctn" data-href="https://watermark.deuxhuithuit.com/v3/?lang={{ request.locale.iso_code }}&ref={{ theme.name }}"></div>
+		</div>
+	</div>
+</footer>

@@ -1,0 +1,35 @@
+<nav>
+	<ul>
+		{% for link in linklists.main-menu.links %}
+			<li>
+				<a href="{{ link.url }}">{{ link.title }}</a>
+				{% if link.links != blank %}
+					<ul class="submenu">
+					{% for child in link.links %}
+						<li>
+							<a href="{{ child.url }}">{{ child.title | escape }}</a>
+							{% if child.links != blank %}
+								<ul>
+									{% for great_child in child.links %}
+										<li>
+											<a href="{{ great_child.url }}" class="submenu-link">
+												{% if great_child.object.image %}
+													{% render 'picture', image: great_child.object.image %}
+												{% endif %}
+												{% if great_child.object.featured_image %}
+													{% render 'picture', image: great_child.object.featured_image %}
+												{% endif %}
+												<span>{{ great_child.title | escape }}</span>
+											</a>
+										</li>
+									{% endfor %}
+								</ul>
+							{% endif %}
+						</li>
+					{% endfor %}
+					</ul>
+				{% endif %}
+			</li>
+		{% endfor %}
+	</ul>
+</nav>
