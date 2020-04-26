@@ -1,0 +1,19 @@
+{
+	"name": "shopify-template",
+	"version": "1.0.0",
+	"description": "",
+	"main": "gruntfile.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/deuxhuithuit/shopify-template.git"
+	},
+	"author": "deuxhuithuit",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/deuxhuithuit/shopify-template/issues"
+	},
+	"homepage": "https://github.com/deuxhuithuit/shopify-template#readme"
+}
