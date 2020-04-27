@@ -80,8 +80,7 @@ module.exports = function shopify (grunt) {
 
 			try {
 				if (options.mode === 'deleted') {
-					url += (!!file ? ('?asset[key]=' + key) : '');
-					await axios.delete(url, shopifyAuth(options));
+					await axios.delete(url + (!!file ? ('?asset[key]=' + key) : ''), shopifyAuth(options));
 				} else {
 					await axios.put(url, shopifyRequest(key, file, fx), shopifyAuth(options));
 				}
