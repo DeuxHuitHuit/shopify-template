@@ -1,0 +1,8 @@
+{
+	"default": {
+		"api_key": "<API KEY>",
+		"password": "<API KEY PASSWORD>",
+		"theme_id": "<THEME ID>",
+		"myshopify": "<DOMAIN>.myshopify.com"
+	}
+}
