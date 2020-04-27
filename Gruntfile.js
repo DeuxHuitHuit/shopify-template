@@ -47,8 +47,7 @@ module.exports = function (grunt) {
 			}
 		},
 		jshint: {
-			files: jsFiles,
-			options: grunt.file.readJSON('jshint.json')
+			files: jsFiles
 		},
 		uglify: {
 			options: {
@@ -106,7 +105,7 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-contrib-watch');
 
 	grunt.registerTask('default', ['watch']);
-	grunt.registerTask('build', ['less', 'concat', 'uglify']);
+	grunt.registerTask('build', ['less', 'jshint', 'concat', 'uglify']);
 	grunt.registerTask('deploy', ['watch']);
 	grunt.registerTask('deploy:prod', ['watch']);
 	grunt.registerTask('sync', ['shopify:sync']);
