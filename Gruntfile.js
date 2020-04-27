@@ -85,7 +85,8 @@ module.exports = function (grunt) {
 			},
 			options: {
 				spawn: false,
-				livereload: true
+				livereload: true,
+				livereloadOnError: true
 			}
 		}
 	});
