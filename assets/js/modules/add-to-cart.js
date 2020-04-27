@@ -18,7 +18,7 @@
 		btn.attr('data-id', variant.id);
 		btn.prop('disabled', !variant.available);
 		scope.find(sels.qte).val(1);
-		btn.text(!!variant.available ? btn.attr('data-available-text') : btn.attr('data-out-of-stock-text'));
+		btn.text(!!variant.available ? btn.attr('data-available-text') : btn.attr('data-out-of-stock-text')); // jshint ignore:line
 	};
 
 	var onClick = function (event) {
