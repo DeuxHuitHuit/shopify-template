@@ -4,64 +4,92 @@ module.exports = function shopify (grunt) {
 	const isBinary = require('isbinaryfile');
 	const axios = require('axios');
 
-	grunt.registerTask('shopify', 'Sync files with Shopify', async () => {
+	const sleep = async (time) => {
+		return new Promise((resolve) => {
+			setTimeout(resolve, time);
+		});
+	};
+
+	const shopifyAuth = (options) => {
+		const auth = 'Basic ' + Buffer.from(options.auth.api_key + ':' + options.auth.password).toString('base64');
+		return {
+			headers: {
+				'Authorization': auth
+			}
+		};
+	};
+
+	const shopifyRequest = (key, file) => {
+		const data = {
+			asset: {
+				key: key
+			}
+		};
+
+		const isBytes = !!isBinary.isBinaryFileSync(file);
+		data.asset[!!isBytes ? 'attachment' : 'value'] = grunt.file.read(file, { encoding: isBytes ? 'base64' : 'utf8' });
+
+		return data;
+	};
+
+	const generateKey = (file) => {
+		const filePath = file.replace('./', '').split('/');
+		let folder = filePath[0];
+		let filename = filePath[filePath.length - 1];
+
+		if (!!filename.endsWith('.less')) {
+			filename = 'theme.min.css';
+		}
+
+		if (folder !== 'assets') {
+			folder = filePath.slice(0, -1).join('/');
+		}
+
+		return folder + '/' + filename;
+	};
+
+	grunt.registerTask('shopify', 'Sync files with Shopify', async (fx, env) => {
 		const done = grunt.task.current.async();
 		const options = grunt.task.current.options();
 
-		const url = `https://${options.myshopify}/admin/api/2020-04/themes/${options.theme_id}/assets.json`;
+		options.auth = options.auth[env] || options.auth['staging'] || options.auth['default'];
+
+		const url = `https://${options.auth.myshopify}/admin/api/2020-04/themes/${options.auth.theme_id}/assets.json`;
 
 		if (typeof options.files === 'string') {
 			options.files = [options.files];
 		}
 
+		options.files = grunt.file.expand(options.files);
+
 		for (let index = 0; index < options.files.length; index++) {
 			let file = options.files[index];
-			let key = file.split('/')[0] + '/' + file.split('/')[file.split('/').length - 1];
+			let key = generateKey(file);
 
 			if (!!key.endsWith('.less')) {
-				key = 'assets/theme.min.css';
 				file = 'assets/theme.min.css';
 			}
 
-			let response = null;
-			const auth = 'Basic ' + Buffer.from(options.api_key + ':' + options.password).toString('base64');
-
 			try {
 				if (options.mode === 'deleted') {
-					response = await axios({
-						method: 'DELETE',
-						url: url + '?asset[key]=' + key,
-						headers: {
-							'Authorization': auth
-						}
-					});
+					url += (!!file ? ('?asset[key]=' + key) : '');
+					await axios.delete(url, shopifyAuth(options));
 				} else {
-					let data = {
-						asset: {
-							key: key
-						}
-					};
-
-					const isBytes = !!isBinary.isBinaryFileSync(file);
-
-					data.asset[!!isBytes ? 'attachment' : 'value'] = grunt.file.read(file, { encoding: isBytes ? 'base64' : 'utf8' });
-
-					response = await axios({
-						method: 'PUT',
-						url: url,
-						data: data,
-						headers: {
-							'Authorization': auth
-						}
-					});
+					await axios.put(url, shopifyRequest(key, file), shopifyAuth(options));
 				}
 			} catch (error) {
-				grunt.log.error(file + ': ' + error.response.data.errors.asset[0]);
+				grunt.log.error(file + ': ' + JSON.stringify(error.response.data.errors));
+				grunt.log.error(error);
 				done();
 				return;
 			}
 
 			grunt.log.ok(file + ': uploaded');
+			await sleep(300);
+		}
+
+		if (!!fx) {
+			grunt.log.ok('Deployment of theme done');
 		}
 
 		done();

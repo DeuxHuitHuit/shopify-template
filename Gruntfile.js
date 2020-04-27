@@ -15,11 +15,8 @@ const findUsedJsFiles = (grunt) => {
 };
 
 module.exports = function (grunt) {
-	const path = require('path');
-	const env = grunt.option('env') || 'default';
-
 	// Files
-	let shopifyConfig = grunt.file.readJSON('./config.json', 'utf8')[env];
+	let shopifyConfig = grunt.file.readJSON('./config.json', 'utf8');
 	const jsFiles = findUsedJsFiles(grunt);
 
 	const banner = '/* <%= theme.theme_name %> - <%= pkg.version %> - <%= grunt.template.today("dd-mm-yyyy") %> */';
@@ -29,10 +26,15 @@ module.exports = function (grunt) {
 		pkg: grunt.file.readJSON('package.json'),
 		shopify: {
 			options: {
-				myshopify: shopifyConfig.myshopify,
-				api_key: shopifyConfig.api_key,
-				theme_id: shopifyConfig.theme_id,
-				password: shopifyConfig.password
+				auth: shopifyConfig,
+				files: [
+					'./assets/theme.min.js',
+					'./assets/theme.min.css',
+					'./assets/fonts/*',
+					'./assets/images/*',
+					'./assets/js/**/*.js',
+					'./**/*.liquid'
+				]
 			}
 		},
 		less: {
@@ -82,7 +84,8 @@ module.exports = function (grunt) {
 				tasks: ['shopify']
 			},
 			options: {
-				spawn: false
+				spawn: false,
+				livereload: true
 			}
 		}
 	});
@@ -106,9 +109,6 @@ module.exports = function (grunt) {
 
 	grunt.registerTask('default', ['watch']);
 	grunt.registerTask('build', ['less', 'jshint', 'concat', 'uglify']);
-	grunt.registerTask('deploy', ['watch']);
-	grunt.registerTask('deploy:prod', ['watch']);
-	grunt.registerTask('sync', ['shopify:sync']);
-	grunt.registerTask('upload', ['shopify:upload']);
-	grunt.registerTask('download', ['shopify:download']);
+	grunt.registerTask('deploy', ['shopify:deploy']);
+	grunt.registerTask('deploy:prod', ['build', 'shopify:deploy:production']);
 };

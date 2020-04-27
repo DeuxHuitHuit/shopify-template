@@ -34,19 +34,21 @@
 
 	var renderNav = function () {
 		var html = $();
+		
+		if (!!altLocale.length) {
+			if (altLocale.length > 1) {
+				html = $('<select />').addClass(sels.select.substring(1));
 
-		if (altLocale.length > 1) {
-			html = $('<select />').addClass(sels.select.substring(1));
-
-			$.each(locales, function (index, locale) {
-				var selected = currentLocale === locale.iso;
-				var alt = scope.find(sels.alts).filter('[hreflang=' + locale.iso + ']');
-				var o = $('<option />').attr('value', alt.attr('href')).prop('selected', selected);
-				html.append(o.text(locale.iso));
-			});
-		} else {
-			var alt = scope.find(sels.alts).filter('[hreflang=' + altLocale[0].iso + ']');
-			html = $('<a />').text(altLocale[0].iso).attr('href', alt.attr('href'));
+				$.each(locales, function (index, locale) {
+					var selected = currentLocale === locale.iso;
+					var alt = scope.find(sels.alts).filter('[hreflang=' + locale.iso + ']');
+					var o = $('<option />').attr('value', alt.attr('href')).prop('selected', selected); // jshint ignore:line
+					html.append(o.text(locale.iso));
+				});
+			} else {
+				var alt = scope.find(sels.alts).filter('[hreflang=' + altLocale[0].iso + ']');
+				html = $('<a />').text(altLocale[0].iso).attr('href', alt.attr('href'));
+			}
 		}
 
 		scope.find(sels.ctn).append(html);
