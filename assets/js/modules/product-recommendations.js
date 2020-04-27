@@ -36,9 +36,12 @@
 		var template = scope.find(sels.template).html();
 		var templateMatch = template.match(/__([a-zA-Z\-]{1,})__/gm);
 
+		var url = '/recommendations/products.json?limit=';
+		url += t.attr('data-limit') + '&product_id=' + t.attr('data-product-id');
+
 		$.ajax({
 			method: 'GET',
-			url: '/recommendations/products.json?limit=' + t.attr('data-limit') + '&product_id=' + t.attr('data-product-id'),
+			url: url,
 			success: function (data) {
 				$.each(data.products, function (index, product) {
 					var productRecommendation = template;
@@ -51,7 +54,6 @@
 
 						var value = product[key] + '';
 
-
 						if (key === 'image') {
 							value = product.featured_image;
 						} else if (key === 'alt') {
@@ -61,7 +63,6 @@
 						} else if (key === 'price_min') {
 							value = formatMoney(product.price_min);
 						}
-
 
 						productRecommendation = productRecommendation.replace(search, value);
 					});

@@ -1,0 +1,43 @@
+{
+	"esversion": 6,
+	"bitwise": false,
+	"camelcase": false,
+	"curly": true,
+	"eqeqeq": false,
+	"forin": true,
+	"freeze": true,
+	"immed": false,
+	"latedef": true,
+	"newcap": true,
+	"noempty": true,
+	"nonew": true,
+	"noarg": true,
+	"plusplus": false,
+	"quotmark": "single",
+	"undef": true,
+	"maxparams": 5,
+	"maxdepth": 5,
+	"maxstatements": 30,
+	"maxlen": 100,
+	"nonbsp": true,
+
+	"regexp": true,
+	"strict": true,
+	"trailing": false,
+	"sub": true,
+	"smarttabs": true,
+	"lastsemic": false,
+	"browser": true,
+
+	"globals": {
+		"jQuery": true,
+		"console": true,
+		"App": true,
+		"Loader": true,
+		"_": true,
+		"module": true,
+		"google": true,
+		"CSS3": true,
+		"Shopify": true
+	}
+}

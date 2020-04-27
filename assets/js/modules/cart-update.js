@@ -31,7 +31,7 @@
 	};
 
 	var onCartUpdate = function (cart) {
-		if (!cart.items.length && window.location.pathname === '/cart' && !!scope.find(sels.item).length) {
+		if (!cart.items.length && window.location.pathname === '/cart' && !!scope.find(sels.item).length) { // jshint ignore:line
 			window.location.reload();
 			return;
 		}

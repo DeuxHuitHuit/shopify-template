@@ -2,11 +2,11 @@
 
 {% for collection in collections %}
 	<article>
-		<a href="{{ collection.url }}">
-			{% if collection.image != blank%}
+		{% if collection.image != blank %}
+			<a href="{{ collection.url }}">
 				{% render 'image', image: collection.image %}
-			{% else %}
-		</a>
+			</a>
+		{% endif %}
 
 		<a href="{{ collection.url }}">
 			<h1>{{ collection.title }}</h1>

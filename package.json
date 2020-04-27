@@ -15,5 +15,16 @@
 	"bugs": {
 		"url": "https://github.com/deuxhuithuit/shopify-template/issues"
 	},
-	"homepage": "https://github.com/deuxhuithuit/shopify-template#readme"
+	"homepage": "https://github.com/deuxhuithuit/shopify-template#readme",
+	"dependencies": {
+		"axios": "^0.19.2",
+		"growl": "^1.10.5",
+		"grunt": "^1.1.0",
+		"grunt-contrib-concat": "^1.0.1",
+		"grunt-contrib-jshint": "^2.1.0",
+		"grunt-contrib-less": "^2.0.0",
+		"grunt-contrib-uglify": "^4.0.1",
+		"grunt-contrib-watch": "^1.1.0",
+		"isbinaryfile": "^4.0.6"
+	}
 }
