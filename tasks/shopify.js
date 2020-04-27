@@ -19,15 +19,23 @@ module.exports = function shopify (grunt) {
 		};
 	};
 
-	const shopifyRequest = (key, file) => {
+	const shopifyRequest = (key, file, fx) => {
 		const data = {
 			asset: {
 				key: key
 			}
 		};
 
+		if (!!file.endsWith('.less')) {
+			file = './assets/theme.min.css';
+		}
+
 		const isBytes = !!isBinary.isBinaryFileSync(file);
 		data.asset[!!isBytes ? 'attachment' : 'value'] = grunt.file.read(file, { encoding: isBytes ? 'base64' : 'utf8' });
+
+		if (fx === 'deploy' && key === 'snippets/js.liquid') {
+			data.asset.value = '{{ \'theme.min.js\' | asset_url | script_tag }}\n';
+		}
 
 		return data;
 	};
@@ -75,7 +83,7 @@ module.exports = function shopify (grunt) {
 					url += (!!file ? ('?asset[key]=' + key) : '');
 					await axios.delete(url, shopifyAuth(options));
 				} else {
-					await axios.put(url, shopifyRequest(key, file), shopifyAuth(options));
+					await axios.put(url, shopifyRequest(key, file, fx), shopifyAuth(options));
 				}
 			} catch (error) {
 				grunt.log.error(file + ': ' + JSON.stringify(error.response.data.errors));
@@ -86,6 +94,10 @@ module.exports = function shopify (grunt) {
 
 			grunt.log.ok(file + ': uploaded');
 			await sleep(300);
+		}
+
+		if (options.files.length === 1) {
+			await sleep(1000);
 		}
 
 		if (!!fx) {
