@@ -4,5 +4,23 @@
 		"password": "<API KEY PASSWORD>",
 		"theme_id": "<THEME ID>",
 		"myshopify": "<DOMAIN>.myshopify.com"
+	},
+	"development": {
+		"api_key": "<API KEY>",
+		"password": "<API KEY PASSWORD>",
+		"theme_id": "<THEME ID>",
+		"myshopify": "<DOMAIN>.myshopify.com"
+	},
+	"staging": {
+		"api_key": "<API KEY>",
+		"password": "<API KEY PASSWORD>",
+		"theme_id": "<THEME ID>",
+		"myshopify": "<DOMAIN>.myshopify.com"
+	},
+	"production": {
+		"api_key": "<API KEY>",
+		"password": "<API KEY PASSWORD>",
+		"theme_id": "<THEME ID>",
+		"myshopify": "<DOMAIN>.myshopify.com"
 	}
 }
