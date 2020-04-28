@@ -35,9 +35,7 @@ module.exports = function (grunt) {
 				files: [
 					'./assets/theme.min.js',
 					'./assets/theme.min.css',
-					'./assets/fonts/*',
-					'./assets/images/*',
-					'./assets/js/**/*.js',
+					'./assets/**/*.*',
 					'./**/*.liquid',
 					'./config/settings_schema.json',
 					'./config/settings_data.json',
