@@ -24,6 +24,11 @@ module.exports = function (grunt) {
 	grunt.initConfig({
 		theme: grunt.file.readJSON('./config/settings_schema.json', 'utf8')[0],
 		pkg: grunt.file.readJSON('package.json'),
+		install: {
+			options: {
+				env: ['default', 'staging', 'production']
+			}
+		},
 		shopify: {
 			options: {
 				auth: shopifyConfig,
@@ -33,7 +38,10 @@ module.exports = function (grunt) {
 					'./assets/fonts/*',
 					'./assets/images/*',
 					'./assets/js/**/*.js',
-					'./**/*.liquid'
+					'./**/*.liquid',
+					'./config/settings_schema.json',
+					'./config/settings_data.json',
+					'./locales/*'
 				]
 			}
 		},
@@ -83,6 +91,10 @@ module.exports = function (grunt) {
 				files: ['./**/*.liquid'],
 				tasks: ['shopify']
 			},
+			json: {
+				files: ['./*/**/*.json'],
+				tasks: ['shopify']
+			},
 			options: {
 				spawn: false,
 				livereload: true,
@@ -110,6 +122,8 @@ module.exports = function (grunt) {
 
 	grunt.registerTask('default', ['watch']);
 	grunt.registerTask('build', ['less', 'jshint', 'concat', 'uglify']);
-	grunt.registerTask('deploy', ['shopify:deploy']);
+	grunt.registerTask('deploy', ['build', 'shopify:deploy']);
+	grunt.registerTask('deploy:staging', ['build', 'shopify:deploy:staging']);
 	grunt.registerTask('deploy:prod', ['build', 'shopify:deploy:production']);
+	grunt.registerTask('init', ['install', 'deploy']);
 };

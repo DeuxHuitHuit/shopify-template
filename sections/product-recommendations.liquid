@@ -1,0 +1,23 @@
+<section class="js-product-recommendations-section">
+	<h2>{{ 'products.see_also' | t }}</h2>
+	<div class="js-product-recommendations" data-product-id="{{ product.id }}" data-limit="3">
+
+	</div>
+</section>
+
+<script type="text/template" class="js-product-recommendations-template">
+	<article>
+		<a href="__url__">
+			<img loading="lazy" src="__image__" alt="__alt__" />
+		</a>
+		<div class="info">
+			<div class="has-compare-price">
+				<p class="price">__compare-at-price__</p>
+				<p>__price-min__</p>
+			</div>
+			<h1>
+				<a href="__url__">__title__</a>
+			</h1>
+		</div>
+	</article>
+</script>

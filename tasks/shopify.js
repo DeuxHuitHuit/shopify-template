@@ -1,4 +1,4 @@
-module.exports = function shopify (grunt) {
+module.exports = function shopify(grunt) {
 	'use strict';
 
 	const isBinary = require('isbinaryfile');
@@ -19,7 +19,7 @@ module.exports = function shopify (grunt) {
 		};
 	};
 
-	const shopifyRequest = (key, file, fx) => {
+	const shopifyRequest = (key, file, fx, env) => {
 		const data = {
 			asset: {
 				key: key
@@ -33,7 +33,7 @@ module.exports = function shopify (grunt) {
 		const isBytes = !!isBinary.isBinaryFileSync(file);
 		data.asset[!!isBytes ? 'attachment' : 'value'] = grunt.file.read(file, { encoding: isBytes ? 'base64' : 'utf8' });
 
-		if (fx === 'deploy' && key === 'snippets/js.liquid') {
+		if (fx === 'deploy' && key === 'snippets/js.liquid' && env != 'default') {
 			data.asset.value = '{{ \'theme.min.js\' | asset_url | script_tag }}\n';
 		}
 
@@ -60,7 +60,7 @@ module.exports = function shopify (grunt) {
 		const done = grunt.task.current.async();
 		const options = grunt.task.current.options();
 
-		options.auth = options.auth[env] || options.auth['staging'] || options.auth['default'];
+		options.auth = options.auth[env] || options.auth['default'];
 
 		const url = `https://${options.auth.myshopify}/admin/api/2020-04/themes/${options.auth.theme_id}/assets.json`;
 
@@ -68,7 +68,9 @@ module.exports = function shopify (grunt) {
 			options.files = [options.files];
 		}
 
-		options.files = grunt.file.expand(options.files);
+		if (!options.mode || options.mode !== 'deleted') {
+			options.files = grunt.file.expand(options.files);
+		}
 
 		for (let index = 0; index < options.files.length; index++) {
 			let file = options.files[index];
@@ -82,16 +84,16 @@ module.exports = function shopify (grunt) {
 				if (options.mode === 'deleted') {
 					await axios.delete(url + (!!file ? ('?asset[key]=' + key) : ''), shopifyAuth(options));
 				} else {
-					await axios.put(url, shopifyRequest(key, file, fx), shopifyAuth(options));
+					const r = await axios.put(url, shopifyRequest(key, file, fx, env), shopifyAuth(options));
 				}
 			} catch (error) {
-				grunt.log.error(file + ': ' + JSON.stringify(error.response.data.errors));
 				grunt.log.error(error);
+				grunt.log.error(file + ': ' + JSON.stringify(error.response.data.errors));
 				done();
 				return;
 			}
 
-			grunt.log.ok(file + ': uploaded');
+			grunt.log.ok(key + ': ' + (!!options.mode ? options.mode : 'uploaded'));
 			await sleep(300);
 		}
 
