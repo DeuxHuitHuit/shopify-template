@@ -8,6 +8,17 @@
 		"theme_support_url": "https://gestion.deuxhuithuit.com/5/"
 	},
 	{
+		"name": "Promotional Alerts",
+		"settings": [
+			{
+				"id": "alert_text",
+				"type": "richtext",
+				"label": "Text",
+				"info": "This text will be displayed at the top of the website, on every pages."
+			}
+		]
+	},
+	{
 		"name": "Social Medias",
 		"settings": [
 			{
