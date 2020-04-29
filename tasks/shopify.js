@@ -56,7 +56,7 @@ module.exports = function shopify(grunt) {
 		return folder + '/' + filename;
 	};
 
-	grunt.registerTask('shopify', 'Sync files with Shopify', async (fx, env) => {
+	grunt.registerTask('shopify', 'Sync files with Shopify', async (fx, env, file) => {
 		const done = grunt.task.current.async();
 		const options = grunt.task.current.options();
 
@@ -64,7 +64,16 @@ module.exports = function shopify(grunt) {
 
 		const url = `https://${options.auth.myshopify}/admin/api/2020-04/themes/${options.auth.theme_id}/assets.json`;
 
+		options.files = file || options.files || [];
+
 		if (typeof options.files === 'string') {
+
+			if (options.files.split('.').length === 1) {
+				grunt.log.writeln(`${options.files} not a file. Skipping.`);
+				done();
+				return;
+			}
+
 			options.files = [options.files];
 		}
 
@@ -101,7 +110,7 @@ module.exports = function shopify(grunt) {
 			await sleep(1000);
 		}
 
-		if (!!fx) {
+		if (fx === 'deploy') {
 			grunt.log.ok('Deployment of theme done');
 		}
 

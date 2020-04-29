@@ -1,5 +1,5 @@
 const findUsedJsFiles = (grunt) => {
-	const file = grunt.file.read('./snippets/js.liquid', 'utf8');
+	const file = grunt.file.read('snippets/js.liquid', 'utf8');
 	const regex = /'([a-zA-Z\-_]*.js)' \| asset_url/gm;
 
 	let jsFiles = [];
@@ -8,7 +8,7 @@ const findUsedJsFiles = (grunt) => {
 		if (m.index === regex.lastIndex) {
 			regex.lastIndex++;
 		}
-		jsFiles.push(`./assets/js/**/${m[1]}`);
+		jsFiles.push(`assets/js/**/${m[1]}`);
 	}
 
 	return jsFiles;
@@ -16,13 +16,13 @@ const findUsedJsFiles = (grunt) => {
 
 module.exports = function (grunt) {
 	// Files
-	let shopifyConfig = grunt.file.readJSON('./config.json', 'utf8');
+	let shopifyConfig = grunt.file.readJSON('config.json', 'utf8');
 	const jsFiles = findUsedJsFiles(grunt);
 
 	const banner = '/* <%= theme.theme_name %> - <%= pkg.version %> - <%= grunt.template.today("dd-mm-yyyy") %> */';
 
 	grunt.initConfig({
-		theme: grunt.file.readJSON('./config/settings_schema.json', 'utf8')[0],
+		theme: grunt.file.readJSON('config/settings_schema.json', 'utf8')[0],
 		pkg: grunt.file.readJSON('package.json'),
 		install: {
 			options: {
@@ -33,13 +33,15 @@ module.exports = function (grunt) {
 			options: {
 				auth: shopifyConfig,
 				files: [
-					'./assets/theme.min.js',
-					'./assets/theme.min.css',
-					'./assets/**/*.*',
-					'./**/*.liquid',
-					'./config/settings_schema.json',
-					'./config/settings_data.json',
-					'./locales/*'
+					'assets/theme.min.js',
+					'assets/theme.min.css',
+					'assets/**/*',
+					'config/*',
+					'layout/*',
+					'locales/*',
+					'sections/*',
+					'snippets/*',
+					'templates/*'
 				]
 			}
 		},
@@ -50,7 +52,7 @@ module.exports = function (grunt) {
 					compress: true
 				},
 				files: {
-					'./assets/theme.min.css': './assets/css/theme.less'
+					'assets/theme.min.css': 'assets/css/theme.less'
 				}
 			}
 		},
@@ -63,7 +65,7 @@ module.exports = function (grunt) {
 			},
 			dist: {
 				files: {
-					'./assets/theme.min.js': ['./assets/theme.js']
+					'assets/theme.min.js': ['assets/theme.js']
 				}
 			}
 		},
@@ -73,24 +75,27 @@ module.exports = function (grunt) {
 			},
 			dist: {
 				src: jsFiles,
-				dest: './assets/theme.js'
+				dest: 'assets/theme.js'
 			}
 		},
 		watch: {
-			js: {
-				files: ['./assets/js/**/*.js'],
-				tasks: ['shopify']
-			},
 			css: {
-				files: ['./assets/css/**/*.less'],
+				files: ['assets/css/**/*.less'],
 				tasks: ['less', 'shopify']
 			},
-			liquid: {
-				files: ['./**/*.liquid'],
-				tasks: ['shopify']
-			},
-			json: {
-				files: ['./*/**/*.json'],
+			catch: {
+				files: [
+					'assets/**/*',
+					'config/*',
+					'layout/*',
+					'locales/*',
+					'sections/*',
+					'snippets/*',
+					'templates/*',
+					'!assets/theme.min.css',
+					'!assets/theme.css',
+					'!assets/theme.min.js'
+				],
 				tasks: ['shopify']
 			},
 			options: {
