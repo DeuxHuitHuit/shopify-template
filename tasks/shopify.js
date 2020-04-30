@@ -27,7 +27,7 @@ module.exports = function shopify(grunt) {
 		};
 
 		if (!!file.endsWith('.less')) {
-			file = './assets/theme.min.css';
+			file = './assets/theme.min.css.liquid';
 		}
 
 		const isBytes = !!isBinary.isBinaryFileSync(file);
@@ -46,7 +46,7 @@ module.exports = function shopify(grunt) {
 		let filename = filePath[filePath.length - 1];
 
 		if (!!filename.endsWith('.less')) {
-			filename = 'theme.min.css';
+			filename = 'theme.min.css.liquid';
 		}
 
 		if (folder !== 'assets') {
@@ -86,7 +86,7 @@ module.exports = function shopify(grunt) {
 			let key = generateKey(file);
 
 			if (!!key.endsWith('.less')) {
-				file = 'assets/theme.min.css';
+				file = 'assets/theme.min.css.liquid';
 			}
 
 			try {
@@ -107,7 +107,7 @@ module.exports = function shopify(grunt) {
 		}
 
 		if (options.files.length === 1) {
-			await sleep(1000);
+			await sleep(2000);
 		}
 
 		if (fx === 'deploy') {

@@ -34,7 +34,7 @@ module.exports = function (grunt) {
 				auth: shopifyConfig,
 				files: [
 					'assets/theme.min.js',
-					'assets/theme.min.css',
+					'assets/theme.min.css.liquid',
 					'assets/**/*',
 					'config/*',
 					'layout/*',
@@ -52,7 +52,7 @@ module.exports = function (grunt) {
 					compress: true
 				},
 				files: {
-					'assets/theme.min.css': 'assets/css/theme.less'
+					'assets/theme.min.css.liquid': 'assets/css/theme.less'
 				}
 			}
 		},
@@ -81,7 +81,7 @@ module.exports = function (grunt) {
 		watch: {
 			css: {
 				files: ['assets/css/**/*.less'],
-				tasks: ['less', 'shopify']
+				tasks: ['less']
 			},
 			catch: {
 				files: [
@@ -92,8 +92,7 @@ module.exports = function (grunt) {
 					'sections/*',
 					'snippets/*',
 					'templates/*',
-					'!assets/theme.min.css',
-					'!assets/theme.css',
+					'!assets/theme.js',
 					'!assets/theme.min.js'
 				],
 				tasks: ['shopify']
