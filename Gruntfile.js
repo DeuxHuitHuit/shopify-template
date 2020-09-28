@@ -117,13 +117,13 @@ module.exports = function (grunt) {
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-concat');
-	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks('grunt-babel');
+	grunt.loadNpmTasks('grunt-purgecss');
 
 	grunt.registerTask('default', ['watch']);
-	grunt.registerTask('build', ['less', 'jshint', 'concat', 'uglify']);
+	grunt.registerTask('build', ['postcss', 'purgecss', 'jshint', 'concat:js', 'babel', 'headers:js']);
 	grunt.registerTask('deploy', ['build', 'shopify:deploy']);
 	grunt.registerTask('deploy:staging', ['build', 'shopify:deploy:staging']);
 	grunt.registerTask('deploy:prod', ['build', 'shopify:deploy:production']);

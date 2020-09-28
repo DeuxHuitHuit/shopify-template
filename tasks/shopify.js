@@ -37,6 +37,10 @@ module.exports = function shopify(grunt) {
 			data.asset.value = '{{ \'theme.min.js\' | asset_url | script_tag }}\n';
 		}
 
+		if (fx === 'deploy' && key === 'snippets/css.liquid' && env != 'default') {
+			data.asset.value = '{{ \'theme.min.css\' | asset_url | stylesheet_tag }}\n';
+		}
+
 		return data;
 	};
 

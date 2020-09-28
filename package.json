@@ -17,14 +17,22 @@
 	},
 	"homepage": "https://github.com/deuxhuithuit/shopify-template#readme",
 	"dependencies": {
+		"@babel/core": "^7.10.5",
+		"@babel/preset-env": "^7.10.4",
+		"autoprefixer": "^9.8.5",
 		"axios": "^0.19.2",
 		"growl": "^1.10.5",
 		"grunt": "^1.1.0",
 		"grunt-contrib-concat": "^1.0.1",
 		"grunt-contrib-jshint": "^2.1.0",
-		"grunt-contrib-less": "^2.0.0",
-		"grunt-contrib-uglify": "^4.0.1",
 		"grunt-contrib-watch": "^1.1.0",
-		"isbinaryfile": "^4.0.6"
+		"isbinaryfile": "^4.0.6",
+		"postcss": "^7.0.32",
+		"postcss-import": "^12.0.1",
+		"postcss-nested": "^4.2.3",
+		"tailwindcss": "^1.5.2",
+		"grunt-babel": "^8.0.0",
+		"grunt-complexity": "^1.1.0",
+		"grunt-purgecss": "^2.3.0"
 	}
 }
