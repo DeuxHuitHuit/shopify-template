@@ -17,7 +17,7 @@ module.exports = (grunt) => {
 						'assets/css/main.css'
 					],
 					dist: 'assets/css/pre-build',
-					root: `assets`
+					root: `assets/css`
 				}
 			}
 		}

@@ -1,6 +1,7 @@
 {
 	"name": "shopify-template",
-	"version": "1.0.0",
+	"title": "<TO FILL>",
+	"version": "0.1.0",
 	"description": "",
 	"main": "gruntfile.js",
 	"scripts": {
@@ -10,7 +11,10 @@
 		"type": "git",
 		"url": "git+https://github.com/deuxhuithuit/shopify-template.git"
 	},
-	"author": "deuxhuithuit",
+	"author": {
+		"name": "Deux Huit Huit",
+		"url": "https://deuxhuithuit.com"
+	},
 	"license": "MIT",
 	"bugs": {
 		"url": "https://github.com/deuxhuithuit/shopify-template/issues"
@@ -26,6 +30,8 @@
 		"grunt-contrib-concat": "^1.0.1",
 		"grunt-contrib-jshint": "^2.1.0",
 		"grunt-contrib-watch": "^1.1.0",
+		"grunt-contrib-clean": "^2.0.0",
+		"grunt-csso": "^2.2.4",
 		"isbinaryfile": "^4.0.6",
 		"postcss": "^7.0.32",
 		"postcss-import": "^12.0.1",

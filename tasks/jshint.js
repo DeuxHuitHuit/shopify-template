@@ -4,7 +4,7 @@ module.exports = function shopify(grunt) {
 	grunt.config.merge({
 		jshint: {
 			options: {
-				esversion: 5,
+				esversion: 6,
 				bitwise: false,
 				camelcase: false,
 				curly: true,
@@ -48,7 +48,8 @@ module.exports = function shopify(grunt) {
 					CSS3: true,
 					Shopify: true
 				}
-			}
+			},
+			all: grunt.config.get('jsFiles')
 		}
 	});
 

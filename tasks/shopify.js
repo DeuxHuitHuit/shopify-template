@@ -26,18 +26,18 @@ module.exports = function shopify(grunt) {
 			}
 		};
 
-		if (!!file.endsWith('.less')) {
-			file = './assets/theme.min.css.liquid';
+		if (!!file.endsWith('.css') || file.endsWith('tailwind.config.js')) {
+			file = './assets/css/theme-no-purge.css';
 		}
 
 		const isBytes = !!isBinary.isBinaryFileSync(file);
 		data.asset[!!isBytes ? 'attachment' : 'value'] = grunt.file.read(file, { encoding: isBytes ? 'base64' : 'utf8' });
 
-		if (fx === 'deploy' && key === 'snippets/js.liquid' && env != 'default') {
+		if (fx === 'deploy' && key === 'snippets/js.liquid' && (!!env && env != 'default')) {
 			data.asset.value = '{{ \'theme.min.js\' | asset_url | script_tag }}\n';
 		}
 
-		if (fx === 'deploy' && key === 'snippets/css.liquid' && env != 'default') {
+		if (fx === 'deploy' && key === 'snippets/css.liquid' && (!!env && env != 'default')) {
 			data.asset.value = '{{ \'theme.min.css\' | asset_url | stylesheet_tag }}\n';
 		}
 
@@ -49,8 +49,8 @@ module.exports = function shopify(grunt) {
 		let folder = filePath[0];
 		let filename = filePath[filePath.length - 1];
 
-		if (!!filename.endsWith('.less')) {
-			filename = 'theme.min.css.liquid';
+		if (!!file.endsWith('.css') || file.endsWith('tailwind.config.js')) {
+			filename = 'theme-no-purge.css';
 		}
 
 		if (folder !== 'assets') {
@@ -85,13 +85,15 @@ module.exports = function shopify(grunt) {
 			options.files = grunt.file.expand(options.files);
 		}
 
+		options.files = options.files.filter((path) => {
+			return path.indexOf('.') >= 0;
+		});
+
 		for (let index = 0; index < options.files.length; index++) {
 			let file = options.files[index];
 			let key = generateKey(file);
 
-			if (!!key.endsWith('.less')) {
-				file = 'assets/theme.min.css.liquid';
-			}
+			console.log(key);
 
 			try {
 				if (options.mode === 'deleted') {

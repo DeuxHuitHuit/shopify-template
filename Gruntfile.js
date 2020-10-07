@@ -1,6 +1,6 @@
 const findUsedJsFiles = (grunt) => {
 	const file = grunt.file.read('snippets/js.liquid', 'utf8');
-	const regex = /'([a-zA-Z\-_]*.js)' \| asset_url/gm;
+	const regex = /'([0-9a-zA-Z\-_\.]*.js)' \| asset_url/gm;
 
 	let jsFiles = [];
 	let m;
@@ -14,14 +14,29 @@ const findUsedJsFiles = (grunt) => {
 	return jsFiles;
 };
 
-module.exports = function (grunt) {
-	// Files
-	let shopifyConfig = grunt.file.readJSON('config.json', 'utf8');
-	const jsFiles = findUsedJsFiles(grunt);
+const findUsedJsLibs = (grunt) => {
+	const file = grunt.file.read('snippets/js.liquid', 'utf8');
+	const regex = /src="(http[0-9a-zA-Z\-_\.\/:]*)*"/gm;
 
-	const banner = '/* <%= theme.theme_name %> - <%= pkg.version %> - <%= grunt.template.today("dd-mm-yyyy") %> */';
+	let jsFiles = [];
+	let m;
+	while ((m = regex.exec(file)) !== null) {
+		if (m.index === regex.lastIndex) {
+			regex.lastIndex++;
+		}
+		jsFiles.push(`${m[1]}`);
+	}
+
+	return jsFiles;
+};
+
+module.exports = function (grunt) {
+
+	let shopifyConfig = grunt.file.readJSON('config.json', 'utf8');
 
 	grunt.initConfig({
+		jsFiles: findUsedJsFiles(grunt),
+		jsLibs: findUsedJsLibs(grunt),
 		theme: grunt.file.readJSON('config/settings_schema.json', 'utf8')[0],
 		pkg: grunt.file.readJSON('package.json'),
 		install: {
@@ -34,7 +49,9 @@ module.exports = function (grunt) {
 				auth: shopifyConfig,
 				files: [
 					'assets/theme.min.js',
-					'assets/theme.min.css.liquid',
+					'assets/theme.js',
+					'assets/theme.min.css',
+					'assets/theme.css',
 					'assets/**/*',
 					'config/*',
 					'layout/*',
@@ -43,64 +60,6 @@ module.exports = function (grunt) {
 					'snippets/*',
 					'templates/*'
 				]
-			}
-		},
-		less: {
-			development: {
-				options: {
-					banner: banner,
-					compress: true
-				},
-				files: {
-					'assets/theme.min.css.liquid': 'assets/css/theme.less'
-				}
-			}
-		},
-		jshint: {
-			files: jsFiles
-		},
-		uglify: {
-			options: {
-				banner: banner
-			},
-			dist: {
-				files: {
-					'assets/theme.min.js': ['assets/theme.js']
-				}
-			}
-		},
-		concat: {
-			options: {
-				separator: '\n'
-			},
-			dist: {
-				src: jsFiles,
-				dest: 'assets/theme.js'
-			}
-		},
-		watch: {
-			css: {
-				files: ['assets/css/**/*.less'],
-				tasks: ['less']
-			},
-			catch: {
-				files: [
-					'assets/**/*',
-					'config/*',
-					'layout/*',
-					'locales/*',
-					'sections/*',
-					'snippets/*',
-					'templates/*',
-					'!assets/theme.js',
-					'!assets/theme.min.js'
-				],
-				tasks: ['shopify']
-			},
-			options: {
-				spawn: false,
-				livereload: true,
-				livereloadOnError: true
 			}
 		}
 	});
@@ -119,13 +78,23 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-babel');
 	grunt.loadNpmTasks('grunt-purgecss');
+	grunt.loadNpmTasks('grunt-csso');
+	grunt.loadNpmTasks('grunt-complexity');
 
-	grunt.registerTask('default', ['watch']);
-	grunt.registerTask('build', ['postcss', 'purgecss', 'jshint', 'concat:js', 'babel', 'headers:js']);
+	grunt.registerTask('dev-js', ['complexity', 'jshint']);
+	grunt.registerTask('dev', ['dev-js']);
+
+	grunt.registerTask('js', ['dev-js', 'clean:js', 'libs', 'concat:js', 'babel', 'headers:js']);
+	grunt.registerTask('css', ['clean:css','postcss', 'concat:css', 'purgecss', 'csso', 'headers:css']);
+	grunt.registerTask('build', ['css', 'js']);
+
 	grunt.registerTask('deploy', ['build', 'shopify:deploy']);
 	grunt.registerTask('deploy:staging', ['build', 'shopify:deploy:staging']);
 	grunt.registerTask('deploy:prod', ['build', 'shopify:deploy:production']);
 	grunt.registerTask('init', ['install', 'deploy']);
+
+	grunt.registerTask('default', ['watch']);
 };

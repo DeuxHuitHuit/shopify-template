@@ -22,7 +22,6 @@ module.exports = (grunt) => {
 		const env = grunt.config.get('headers')[grunt.task.current.args[0]];
 		const files = grunt.file.expand(env);
 
-
 		for (let index = 0; index < files.length; index++) {
 			const filePath = files[index];
 			const fileContent = options.content + grunt.file.read(filePath);
