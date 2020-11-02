@@ -1,0 +1,83 @@
+::selection {
+	@apply bg-main-reverse;
+	@apply text-main-reverse;
+}
+::-moz-selection {
+	@apply bg-main-reverse;
+	@apply text-main-reverse;
+}
+
+html {
+	--unit-root: 1;
+	--security-root: 60;
+	--fluid-breakpoint-root: 1560;
+	--perimeter-root: calc(
+		var(--fluid-breakpoint-root) - var(--security-root) * 2
+	);
+	--unit-in-vw: calc(
+		var(--unit-root) * 100 / var(--fluid-breakpoint-root) * 1vw
+	);
+	--unit-in-px: calc(var(--unit-root) * 1px);
+
+	--ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+
+	font-size: calc(var(--unit-in-vw) * 3);
+	scroll-behavior: smooth;
+}
+
+body {
+	@apply text-current;
+	@apply font-sans;
+}
+
+/* Tablet */
+@screen ph {
+	html {
+		font-size: calc(var(--unit-in-vw) * 2);
+	}
+}
+
+/* Tablet */
+@screen xs {
+	html {
+		font-size: calc(var(--unit-in-vw) * 1.5);
+	}
+}
+
+/* Desktop */
+@screen sm {
+	html {
+		font-size: calc(var(--unit-in-vw) * 1.25);
+	}
+}
+
+@screen md {
+	html {
+		font-size: var(--unit-in-vw);
+	}
+}
+
+/* Desktop (big) */
+@screen xl {
+	html {
+		font-size: var(--unit-in-px);
+	}
+}
+
+svg {
+	display: block;
+	width: 100%;
+}
+
+cite,
+address {
+	font-style: normal;
+}
+
+html.no-scroll {
+	overflow: hidden;
+}
+
+html.no-scroll body {
+	overflow-y: hidden;
+}
