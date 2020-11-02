@@ -1,4 +1,16 @@
 'use strict';
+
+const except = (exception, object) => {
+	let output = {};
+
+	Object.keys(object).forEach((key) => {
+		if (key !== exception) {
+			output[key] = object[key];
+		}
+	});
+	return output;
+};
+
 module.exports = {
 	purge: [],
 	theme: {
@@ -34,20 +46,19 @@ module.exports = {
 				50: 'rgba(255,255,255,0.5)',
 				20: 'rgba(255,255,255,0.2)',
 				0: 'rgba(255,255,255,0)'
-			},
-			
+			}
 		},
 		backgroundColor: (theme) => ({
 			main: {
 				default: theme('colors.white.default'),
 				reverse: theme('colors.black.default')
-			},
+			}
 		}),
 		textColor: (theme) => ({
 			main: {
 				default: theme('colors.black.default'),
 				reverse: theme('colors.white.default')
-			},
+			}
 		}),
 		borderColor: (theme) => ({
 			current: 'currentColor',
@@ -55,7 +66,7 @@ module.exports = {
 			main: {
 				default: theme('colors.black.default'),
 				reverse: theme('colors.white.default')
-			},
+			}
 		}),
 		placeholderColor: (theme) => ({
 			default: theme('textColor')
@@ -64,7 +75,7 @@ module.exports = {
 			0: '0',
 			px: '1px',
 			pico: '1rem',
-			nano: '3rem',
+			nano: '4rem',
 			micro: '8rem',
 			thinnest: '12rem',
 			thinner: '16rem',
@@ -72,9 +83,9 @@ module.exports = {
 			broad: '32rem',
 			broader: '40rem',
 			broadest: '48rem',
-			large: '72rem',
-			larger: '90rem',
-			largest: '140rem',
+			large: '82rem',
+			larger: '100rem',
+			largest: '130rem',
 			mega: '220rem',
 			giga: '375rem',
 			tera: '480rem',
@@ -82,63 +93,67 @@ module.exports = {
 			tinier: '720rem',
 			tiny: '790rem',
 			smallest: '880rem',
-			smaller: '1200rem',
+			smaller: '1260rem',
 			small: '1300rem',
 			big: '1450rem',
 			bigger: '1600rem',
 			biggest: '1800rem',
-			'-pico': '-1rem',
-			'-nano': '-3rem',
-			'-micro': '-5rem',
-			'-thinnest': '-10rem',
-			'-thinner': '-16rem',
-			'-thin': '-20rem',
-			'-thin+': '-30rem',
-			'-broad': '-40rem',
-			'-broader': '-60rem',
-			'-broadest': '-80rem',
-			'-large': '-100rem',
-			'-larger': '-120rem',
-			'-largest': '-180rem',
-			'-mega': '-220rem',
-			'-giga': '-375rem',
-			'-tera': '-480rem',
-			'-tiniest': '-640rem',
-			'-tinier': '-720rem',
-			'-tiny': '-790rem',
-			'-smallest': '-946rem',
-			'-smaller': '-1200rem',
-			'-small': '-1300rem',
-			'-big': '-1450rem',
-			'-bigger': '-1600rem',
-			'-biggest': '-1800rem'
+			'1/2': '50%',
+			'1/3': 'calc(100% / 3 * 1)',
+			'2/3': 'calc(100% / 3 * 2)',
+			'1/4': '25%',
+			'3/4': '75%',
+			'1/5': '20%',
+			'2/5': '40%',
+			'3/5': '60%',
+			'4/5': '80%',
+			'1/10': '10%',
+			'3/10': '30%',
+			'7/10': '70%',
+			'9/10': '90%',
+			'1/20': '5%',
+			'3/20': '15%',
+			'7/20': '35%',
+			'9/20': '45%',
+			'11/20': '55%',
+			'13/20': '65%',
+			'17/20': '85%',
+			'19/20': '95%',
+			full: '100%'
 		},
 		maxWidth: (theme) => ({
 			none: 'none',
-			full: '100%',
-			'9/10': '90%',
-			'3/4': '75%',
-			'1/2': '50%',
+			auto: 'auto',
 			...theme('spacing'),
-			...theme('screens')
+			...except('touch', theme('screens'))
 		}),
 		minWidth: (theme) => ({
 			none: 'none',
-			full: '100%',
+			auto: 'auto',
 			...theme('spacing'),
-			...theme('screens')
+			...except('touch', theme('screens'))
+		}),
+		maxHeight: (theme) => ({
+			none: 'none',
+			auto: 'auto',
+			...theme('spacing'),
+			...except('touch', theme('screens'))
+		}),
+		minHeight: (theme) => ({
+			none: 'none',
+			auto: 'auto',
+			...theme('spacing'),
+			...except('touch', theme('screens'))
+		}),
+		inset: (theme) => ({
+			none: 'none',
+			auto: 'auto',
+			...theme('spacing'),
+			...except('touch', theme('screens'))
 		}),
 		fontFamily: {
-			sans: [
-				'Helvetica Neue',
-				'Arial',
-				'sans-serif'
-			],
-			serif: [
-				'Georgia',
-				'Times New Roman',
-				'serif'
-			]
+			sans: ['Helvetica Neue', 'Arial', 'sans-serif'],
+			serif: ['Georgia', 'Times New Roman', 'serif']
 		},
 		fontSize: {
 			miniature: '12rem',
@@ -224,78 +239,15 @@ module.exports = {
 				30: '30%',
 				full: '100%'
 			},
-			height: {
-				'1/4': '25%',
-				'1/2': '50%',
-				'3/4': '75%'
-			},
-			width: {
-				'9/20': '45%'
-			},
-			inset: (theme) => ({
-				...theme('spacing'),
-				'1/2': '50%',
-				'1/3': '33.333333%',
-				'2/3': '66.666667%',
-				'1/4': '25%',
-				'2/4': '50%',
-				'3/4': '75%',
-				'1/5': '20%',
-				'2/5': '40%',
-				'3/5': '60%',
-				'4/5': '80%',
-				'1/6': '16.666667%',
-				'2/6': '33.333333%',
-				'3/6': '50%',
-				'4/6': '66.666667%',
-				'5/6': '83.333333%',
-				'1/12': '8.333333%',
-				'2/12': '16.666667%',
-				'3/12': '25%',
-				'4/12': '33.333333%',
-				'5/12': '41.666667%',
-				'6/12': '50%',
-				'7/12': '58.333333%',
-				'8/12': '66.666667%',
-				'9/12': '75%',
-				'10/12': '83.333333%',
-				'11/12': '91.666667%',
-				'9/16': '56.25%',
-				full: '100%',
-				'-1/2': '-50%',
-				'-1/3': '-33.333333%',
-				'-2/3': '-66.666667%',
-				'-1/4': '-25%',
-				'-2/4': '-50%',
-				'-3/4': '-75%',
-				'-1/5': '-20%',
-				'-2/5': '-40%',
-				'-3/5': '-60%',
-				'-4/5': '-80%',
-				'-1/6': '-16.666667%',
-				'-2/6': '-33.333333%',
-				'-3/6': '-50%',
-				'-4/6': '-66.666667%',
-				'-5/6': '-83.333333%',
-				'-1/12': '-8.333333%',
-				'-2/12': '-16.666667%',
-				'-3/12': '-25%',
-				'-4/12': '-33.333333%',
-				'-5/12': '-41.666667%',
-				'-6/12': '-50%',
-				'-7/12': '-58.333333%',
-				'-8/12': '-66.666667%',
-				'-9/12': '-75%',
-				'-10/12': '-83.333333%',
-				'-11/12': '-91.666667%',
-				'-9/16': '-56.25%',
-				'-full': '-100%'
-			})
+			screens: {
+				touch: { raw: '(hover: none)' }
+			}
 		}
 	},
 	variants: {
 		padding: ['responsive', 'first'],
 		margin: ['responsive', 'first'],
+		accessibility: ['responsive', 'focus', 'group-focus']
 	},
 	plugins: []
 };
