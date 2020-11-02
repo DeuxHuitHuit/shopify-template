@@ -1,3 +1,13 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Base */
+@import 'tailwind/base.css';
+@import 'base/fonts.css';
+@import 'base/site.css';
+
+/* Components */
+@import 'tailwind/components.css';
+
+/* Utils */
+@import 'tailwind/utilities.css';
+
+/* Admin */
+@import 'lib/admin.css';

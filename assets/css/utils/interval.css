@@ -1,0 +1,5 @@
+._interval-module-big { @apply mt-broadest; }
+@screen sm { ._interval-module-big { @apply mt-largest; }}
+
+._interval-module { @apply mt-larger; }
+._interval-module-small { @apply mt-broad; }

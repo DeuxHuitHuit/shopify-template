@@ -1,0 +1,16 @@
+/* DIMENSIONS & SPACINGS */
+._width-screen { @apply max-w-2k; }
+._width-perimeter { @apply max-w-xl; }
+._width-content { @apply max-w-smaller; }
+._width-body { @apply max-w-smallest; }
+._width-narrow { @apply max-w-tinier; }
+._width-cart { @apply max-w-tera; }
+
+/* ICONS */
+._width-icon-big { width: 32rem; }
+._width-icon { width: 24rem; }
+._width-icon-small { width: 12rem; }
+
+._height-icon-big { height: 32rem; }
+._height-icon { height: 24rem; }
+._height-icon-small { height: 12rem; }
