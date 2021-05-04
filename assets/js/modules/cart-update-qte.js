@@ -1,16 +1,15 @@
 /**
-* cart-update-qte
-* @author Deux Huit Huit
-*/
+ * cart-update-qte
+ * @author Deux Huit Huit
+ */
 (function ($, undefined) {
-
 	'use strict';
 
 	var scope = $('body');
 
 	var sels = {
 		qte: '.js-cart-qte',
-		btn: '.js-cart-qte-btn'
+		btn: '.js-cart-qte-btn',
 	};
 
 	var REQUEST_DELAY = 200;
@@ -23,11 +22,11 @@
 			dataType: 'json',
 			data: {
 				id: id,
-				quantity: qte
+				quantity: qte,
 			},
 			success: function (cart) {
 				App.notify('cart.forceUpdate', cart);
-			}
+			},
 		});
 	};
 
@@ -62,9 +61,8 @@
 	App.register(function () {
 		return {
 			app: {
-				init: init
-			}
+				init: init,
+			},
 		};
 	});
-
 })(jQuery);

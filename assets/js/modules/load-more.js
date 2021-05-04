@@ -1,9 +1,8 @@
 /**
-* load-more
-* @author Deux Huit Huit
-*/
+ * load-more
+ * @author Deux Huit Huit
+ */
 (function ($, undefined) {
-
 	'use strict';
 
 	var scope = $('body');
@@ -11,7 +10,7 @@
 	var sels = {
 		ctn: '.js-load-more-ctn',
 		btn: '.js-load-more-btn',
-		content: '.js-load-more-content'
+		content: '.js-load-more-content',
 	};
 
 	var onLoadMoreClick = function () {
@@ -37,7 +36,7 @@
 				} else {
 					t.remove();
 				}
-			}
+			},
 		});
 	};
 
@@ -48,9 +47,8 @@
 	App.register(function () {
 		return {
 			app: {
-				init: init
-			}
+				init: init,
+			},
 		};
 	});
-
 })(jQuery);

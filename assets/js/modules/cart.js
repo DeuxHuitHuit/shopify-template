@@ -1,9 +1,8 @@
 /**
-* cart
-* @author Deux Huit Huit
-*/
+ * cart
+ * @author Deux Huit Huit
+ */
 (function ($, undefined) {
-
 	'use strict';
 
 	var fetchCart = function () {
@@ -13,7 +12,7 @@
 			dataType: 'json',
 			success: function (cart) {
 				App.notify('cart.update', cart);
-			}
+			},
 		});
 	};
 
@@ -32,13 +31,12 @@
 	App.register(function () {
 		return {
 			app: {
-				init: init
+				init: init,
 			},
 			cart: {
 				itemAdded: onItemAdded,
-				forceUpdate: onForceUpdate
-			}
+				forceUpdate: onForceUpdate,
+			},
 		};
 	});
-
 })(jQuery);

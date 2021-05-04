@@ -1,15 +1,14 @@
 /**
-* currency-selector
-* @author Deux Huit Huit
-*/
+ * currency-selector
+ * @author Deux Huit Huit
+ */
 (function ($, undefined) {
-
 	'use strict';
 
 	var scope = $('body');
 
 	var sels = {
-		select: '.js-currency-selector'
+		select: '.js-currency-selector',
 	};
 
 	var onChange = function () {
@@ -30,9 +29,8 @@
 	App.register(function () {
 		return {
 			app: {
-				init: init
-			}
+				init: init,
+			},
 		};
 	});
-
 })(jQuery);

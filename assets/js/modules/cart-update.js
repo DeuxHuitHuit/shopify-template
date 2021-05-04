@@ -1,9 +1,8 @@
 /**
-* cart-update
-* @author Deux Huit Huit
-*/
+ * cart-update
+ * @author Deux Huit Huit
+ */
 (function ($, undefined) {
-
 	'use strict';
 
 	var scope = $('body');
@@ -14,7 +13,7 @@
 		itemTotal: '.js-cart-item-total',
 		discount: '.js-cart-discounts',
 		discountCtn: '.js-cart-discounts-ctn',
-		qte: '.js-cart-qte'
+		qte: '.js-cart-qte',
 	};
 
 	var formatMoney = function (money) {
@@ -31,7 +30,12 @@
 	};
 
 	var onCartUpdate = function (cart) {
-		if (!cart.items.length && window.location.pathname === '/cart' && !!scope.find(sels.item).length) { // jshint ignore:line
+		if (
+			!cart.items.length &&
+			window.location.pathname === '/cart' &&
+			!!scope.find(sels.item).length
+		) {
+			// jshint ignore:line
 			window.location.reload();
 			return;
 		}
@@ -80,9 +84,8 @@
 	App.register(function () {
 		return {
 			cart: {
-				update: onCartUpdate
-			}
+				update: onCartUpdate,
+			},
 		};
 	});
-
 })(jQuery);

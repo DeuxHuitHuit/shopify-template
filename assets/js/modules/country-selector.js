@@ -1,9 +1,8 @@
 /**
-* country-selector
-* @author Deux Huit Huit
-*/
+ * country-selector
+ * @author Deux Huit Huit
+ */
 (function ($, undefined) {
-
 	'use strict';
 
 	var scope = $('body');
@@ -11,7 +10,7 @@
 	var sels = {
 		ctn: '.js-country-selector-ctn',
 		country: '.js-country-selector',
-		province: '.js-country-selector-province'
+		province: '.js-country-selector-province',
 	};
 
 	var onChange = function () {
@@ -48,9 +47,8 @@
 	App.register(function () {
 		return {
 			app: {
-				init: init
-			}
+				init: init,
+			},
 		};
 	});
-
 })(jQuery);

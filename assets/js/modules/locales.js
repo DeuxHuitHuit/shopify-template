@@ -1,9 +1,8 @@
 /**
-* locales
-* @author Deux Huit Huit
-*/
+ * locales
+ * @author Deux Huit Huit
+ */
 (function ($, undefined) {
-
 	'use strict';
 
 	var scope = $('html');
@@ -12,7 +11,7 @@
 		data: '.js-locales',
 		ctn: '.js-locale',
 		select: '.js-locale-select',
-		alts: 'link[rel="alternate"]'
+		alts: 'link[rel="alternate"]',
 	};
 
 	var currentLocale = window.Shopify.locale;
@@ -34,7 +33,7 @@
 
 	var renderNav = function () {
 		var html = $();
-		
+
 		if (!!altLocale.length) {
 			if (altLocale.length > 1) {
 				html = $('<select />').addClass(sels.select.substring(1));
@@ -42,7 +41,9 @@
 				$.each(locales, function (index, locale) {
 					var selected = currentLocale === locale.iso;
 					var alt = scope.find(sels.alts).filter('[hreflang=' + locale.iso + ']');
-					var o = $('<option />').attr('value', alt.attr('href')).prop('selected', selected); // jshint ignore:line
+					var o = $('<option />')
+						.attr('value', alt.attr('href'))
+						.prop('selected', selected); // jshint ignore:line
 					html.append(o.text(locale.iso));
 				});
 			} else {
@@ -62,9 +63,8 @@
 	App.register(function () {
 		return {
 			app: {
-				init: init
-			}
+				init: init,
+			},
 		};
 	});
-
 })(jQuery);

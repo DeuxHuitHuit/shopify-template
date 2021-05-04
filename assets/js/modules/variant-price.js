@@ -1,9 +1,8 @@
 /**
-* variants-price
-* @author Deux Huit Huit
-*/
+ * variants-price
+ * @author Deux Huit Huit
+ */
 (function ($, undefined) {
-
 	'use strict';
 
 	var scope = $('body');
@@ -11,7 +10,7 @@
 	var sels = {
 		ctn: '.js-variants-price-ctn',
 		price: '.js-variants-price',
-		priceCompare: '.js-variants-price-compare'
+		priceCompare: '.js-variants-price-compare',
 	};
 
 	var onVariantSelected = function (variant) {
@@ -25,9 +24,8 @@
 	App.register(function () {
 		return {
 			variant: {
-				selected: onVariantSelected
-			}
+				selected: onVariantSelected,
+			},
 		};
 	});
-
 })(jQuery);

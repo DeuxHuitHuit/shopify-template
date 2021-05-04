@@ -1,15 +1,14 @@
 /**
-* gift-card
-* @author Deux Huit Huit
-*/
+ * gift-card
+ * @author Deux Huit Huit
+ */
 (function ($, undefined) {
-
 	'use strict';
 
 	var scope = $('body');
 
 	var sels = {
-		code: '.js-gift-card-code'
+		code: '.js-gift-card-code',
 	};
 
 	var onCodeClick = function () {
@@ -26,9 +25,8 @@
 	App.register(function () {
 		return {
 			app: {
-				init: init
-			}
+				init: init,
+			},
 		};
 	});
-
 })(jQuery);

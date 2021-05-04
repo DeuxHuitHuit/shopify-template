@@ -82,8 +82,9 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-babel');
 	grunt.loadNpmTasks('grunt-csso');
 	grunt.loadNpmTasks('grunt-env');
+	grunt.loadNpmTasks('grunt-prettier');
 
-	grunt.registerTask('dev-js', ['jshint']);
+	grunt.registerTask('dev-js', ['prettier', 'jshint']);
 	grunt.registerTask('dev', ['dev-js']);
 
 	grunt.registerTask('js', ['dev-js', 'clean:js', 'libs', 'concat:js', 'babel', 'headers:js']);

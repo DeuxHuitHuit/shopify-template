@@ -14,7 +14,7 @@
 		results: '.js-results',
 		resultTemplate: '.js-results-template',
 		noResultTemplate: '.js-no-results-template',
-		searchClear: '.js-search-clear'
+		searchClear: '.js-search-clear',
 	};
 
 	var search = function (ctn, query, page) {
@@ -59,30 +59,34 @@
 					resultsCtn.empty();
 
 					if (!!results[facet + 's'].length) {
-						$.each(results[facet + 's'].slice(0, parseInt(limit, 10)), function (i, result) { // jshint ignore:line
-							var r = template;
+						$.each(
+							results[facet + 's'].slice(0, parseInt(limit, 10)),
+							function (i, result) {
+								// jshint ignore:line
+								var r = template;
 
-							$.each(templateMatch, function (index, match) {
-								var search = new RegExp(match, 'gm');
-								var key = match.match(/[a-zA-Z\-]{1,}/);
-								var value = result[key];
+								$.each(templateMatch, function (index, match) {
+									var search = new RegExp(match, 'gm');
+									var key = match.match(/[a-zA-Z\-]{1,}/);
+									var value = result[key];
 
-								if (key === 'image') {
-									value = result.featured_image.url;
-								} else if (key === 'alt') {
-									value = result.featured_image.alt;
-								}
+									if (key === 'image') {
+										value = result.featured_image.url;
+									} else if (key === 'alt') {
+										value = result.featured_image.alt;
+									}
 
-								r = r.replace(search, value);
-							});
+									r = r.replace(search, value);
+								});
 
-							resultsCtn.append(r);
-						});
+								resultsCtn.append(r);
+							},
+						);
 					} else {
 						resultsCtn.append(t.find(sels.noResultTemplate).html());
 					}
 				});
-			}
+			},
 		});
 	};
 
@@ -121,8 +125,8 @@
 	App.register(function () {
 		return {
 			app: {
-				init: init
-			}
+				init: init,
+			},
 		};
 	});
 })(jQuery);
