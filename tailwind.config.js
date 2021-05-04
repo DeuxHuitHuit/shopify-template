@@ -1,10 +1,12 @@
 'use strict';
 
-const except = (exception, object) => {
+const screenExceptions = ['touch', 'pointer'];
+
+const except = (exceptions, object) => {
 	let output = {};
 
 	Object.keys(object).forEach((key) => {
-		if (key !== exception) {
+		if (!exceptions.includes(key)) {
 			output[key] = object[key];
 		}
 	});
@@ -12,7 +14,13 @@ const except = (exception, object) => {
 };
 
 module.exports = {
-	purge: [],
+	mode: 'jit',
+	purge: {
+		mode: 'layers',
+		layers: ['base', 'components', 'utilities'],
+		content: ['./templates/**/*.twig', './web/assets/js/**/*.js', './config/redactor/*.json'],
+	},
+	darkMode: 'class',
 	theme: {
 		screens: {
 			min: '200px',
@@ -25,79 +33,87 @@ module.exports = {
 			xl: '1560px',
 			hd: '1920px',
 			'2k': '2048px',
-			'4k': '3840px'
+			'4k': '3840px',
+			touch: { raw: '(hover: none)' },
+			pointer: { raw: '(any-hover: hover)' },
 		},
 		colors: {
 			transparent: 'transparent',
 			current: 'currentColor',
 			black: {
-				default: '#080913',
+				DEFAULT: '#33312F',
 				pure: '#000000',
-				80: 'rgba(8, 9, 19, 0.80)',
-				50: 'rgba(8, 9, 19, 0.50)',
-				30: 'rgba(8, 9, 19, 0.30)',
-				20: 'rgba(8, 9, 19, 0.20)',
-				10: 'rgba(8, 9, 19, 0.10)',
-				'05': 'rgba(8, 9, 19, 0.05)'
+				80: 'rgba(0, 0, 0, 0.8)',
+				60: 'rgba(0, 0, 0, 0.6)',
+				50: 'rgba(0, 0, 0, 0.5)',
+				40: 'rgba(0, 0, 0, 0.4)',
+				30: 'rgba(0, 0, 0, 0.3)',
+				20: 'rgba(0, 0, 0, 0.2)',
+				10: 'rgba(0, 0, 0, 0.1)',
 			},
 			white: {
-				default: '#fff',
-				80: 'rgba(255,255,255,0.8)',
-				50: 'rgba(255,255,255,0.5)',
-				20: 'rgba(255,255,255,0.2)',
-				0: 'rgba(255,255,255,0)'
-			}
+				DEFAULT: '#F4F2E7',
+				pure: '#ffffff',
+				80: 'rgba(244, 244, 244, 0.8)',
+				60: 'rgba(244, 244, 244, 0.6)',
+				50: 'rgba(244, 244, 244, 0.5)',
+				40: 'rgba(244, 244, 244, 0.4)',
+				30: 'rgba(244, 244, 244, 0.3)',
+				20: 'rgba(244, 244, 244, 0.2)',
+				10: 'rgba(244, 244, 244, 0.1)',
+			},
+			brand: {
+				beige: '#E2DCC3',
+				orange: '#FF6C00',
+				brown: '#C54F00',
+			},
 		},
-		backgroundColor: (theme) => ({
-			main: {
-				default: theme('colors.white.default'),
-				reverse: theme('colors.black.default')
-			}
-		}),
-		textColor: (theme) => ({
-			main: {
-				default: theme('colors.black.default'),
-				reverse: theme('colors.white.default')
-			}
-		}),
-		borderColor: (theme) => ({
-			current: 'currentColor',
-			transparent: 'transparent',
-			main: {
-				default: theme('colors.black.default'),
-				reverse: theme('colors.white.default')
-			}
-		}),
-		placeholderColor: (theme) => ({
-			default: theme('textColor')
-		}),
-		spacing: {
+		spacing: (theme) => ({
 			0: '0',
-			px: '1px',
-			pico: '1rem',
-			nano: '4rem',
-			micro: '8rem',
-			thinnest: '12rem',
-			thinner: '16rem',
-			thin: '20rem',
-			broad: '32rem',
-			broader: '40rem',
-			broadest: '48rem',
-			large: '82rem',
-			larger: '100rem',
-			largest: '130rem',
-			mega: '220rem',
-			giga: '375rem',
-			tera: '480rem',
-			tiniest: '640rem',
-			tinier: '720rem',
-			tiny: '790rem',
-			smallest: '880rem',
-			smaller: '1260rem',
-			small: '1300rem',
-			big: '1450rem',
-			bigger: '1600rem',
-			biggest: '1800rem',
+			'1px': '1px',
+			'2px': '2px',
+			20: '2rem',
+			30: '4rem',
+			40: '6rem',
+			50: '8rem',
+			60: '12rem',
+			70: '16rem',
+			80: '20rem',
+			90: '24rem',
+			100: '30rem',
+			110: '36rem',
+			120: '40rem',
+			130: '44rem',
+			140: '48rem',
+			150: '56rem',
+			160: '64rem',
+			170: '72rem',
+			180: '84rem',
+			190: '96rem',
+			200: '108rem',
+			210: '120rem',
+			220: '140rem',
+			230: '160rem',
+			240: '180rem',
+			250: '200rem',
+			260: '240rem',
+			270: '280rem',
+			280: '320rem',
+			290: '360rem',
+			300: '400rem',
+			310: '440rem',
+			320: '480rem',
+			330: '540rem',
+			340: '600rem',
+			350: '660rem',
+			360: '700rem',
+			370: '800rem',
+			380: '900rem',
+			390: '1000rem',
+			400: '1100rem',
+			405: '1300rem',
+			410: '1400rem',
+			420: '1600rem',
 			'1/2': '50%',
 			'1/3': 'calc(100% / 3 * 1)',
 			'2/3': 'calc(100% / 3 * 2)',
@@ -119,135 +135,138 @@ module.exports = {
 			'13/20': '65%',
 			'17/20': '85%',
 			'19/20': '95%',
-			full: '100%'
-		},
+			header: '64rem',
+			full: '100%',
+			...except(screenExceptions, theme('screens')),
+		}),
 		maxWidth: (theme) => ({
 			none: 'none',
 			auto: 'auto',
 			...theme('spacing'),
-			...except('touch', theme('screens'))
 		}),
 		minWidth: (theme) => ({
 			none: 'none',
 			auto: 'auto',
 			...theme('spacing'),
-			...except('touch', theme('screens'))
 		}),
 		maxHeight: (theme) => ({
 			none: 'none',
 			auto: 'auto',
 			...theme('spacing'),
-			...except('touch', theme('screens'))
 		}),
 		minHeight: (theme) => ({
 			none: 'none',
 			auto: 'auto',
 			...theme('spacing'),
-			...except('touch', theme('screens'))
 		}),
 		inset: (theme) => ({
 			none: 'none',
 			auto: 'auto',
 			...theme('spacing'),
-			...except('touch', theme('screens'))
 		}),
 		fontFamily: {
-			sans: ['Helvetica Neue', 'Arial', 'sans-serif'],
-			serif: ['Georgia', 'Times New Roman', 'serif']
+			base: ['Arial', 'sans-serif'],
 		},
-		fontSize: {
-			miniature: '12rem',
-			shortest: '13rem',
-			shorter: '14rem',
-			short: '16rem',
-			current: '18rem',
-			tall: '24rem',
-			taller: '28rem',
-			tallest: '32rem',
-			huge: '54rem',
-			huger: '60rem',
-			hugest: '80rem',
-			big: '104rem',
-			giant: '120rem',
-			enormous: '300rem'
-		},
+		fontSize: (theme) => ({
+			10: [
+				'13rem',
+				{
+					lineHeight: theme('lineHeight.20'),
+				},
+			],
+			20: [
+				'16rem',
+				{
+					lineHeight: theme('lineHeight.20'),
+					letterSpacing: theme('letterSpacing.50'),
+				},
+			],
+			30: [
+				'20rem',
+				{
+					lineHeight: theme('lineHeight.20'),
+					letterSpacing: theme('letterSpacing.50'),
+				},
+			],
+			40: [
+				'26.5rem',
+				{
+					lineHeight: theme('lineHeight.20'),
+					letterSpacing: theme('letterSpacing.50'),
+				},
+			],
+			50: [
+				'32rem',
+				{
+					lineHeight: theme('lineHeight.20'),
+					letterSpacing: theme('letterSpacing.50'),
+				},
+			],
+			60: [
+				'44rem',
+				{
+					lineHeight: theme('lineHeight.10'),
+				},
+			],
+			70: [
+				'56rem',
+				{
+					lineHeight: theme('lineHeight.10'),
+				},
+			],
+			80: [
+				'96rem',
+				{
+					lineHeight: theme('lineHeight.10'),
+				},
+			],
+			90: [
+				'144rem',
+				{
+					lineHeight: theme('lineHeight.10'),
+				},
+			],
+			100: [
+				'200rem',
+				{
+					lineHeight: theme('lineHeight.10'),
+				},
+			],
+		}),
 		lineHeight: {
-			compressed: '1.1',
-			tightest: '1.2',
-			tighter: '1.3',
-			tight: '1.45',
-			normal: '1.6',
-			loose: '1.7'
+			0: '1.0',
+			10: '1.1',
+			20: '1.2',
+			30: '1.3',
+			40: '1.4',
+			50: '1.5',
+			60: '1.6',
 		},
 		borderWidth: {
-			none: '0',
-			slimmest: '1px',
-			slimmer: '2px',
-			slim: '4px',
-			thinnest: '5px'
+			0: '0',
+			10: '1px',
+			20: '2px',
+			30: '4px',
+			40: '6px',
+			50: '8px',
+			60: '10px',
+			70: '20px',
 		},
 		borderRadius: {
-			none: '0',
-			sharper: '6px',
-			sharp: '8px',
-			soft: '14px',
-			dull: '32px',
-			duller: '72px',
-			full: '100%'
+			0: '0',
+			5: '3px',
+			10: '5px',
+			20: '10px',
+			30: '20px',
+			40: '40px',
+			full: '9999px',
 		},
 		extend: {
-			listStyleType: {
-				roman: 'lower-roman',
-				alpha: 'lower-alpha',
-				circle: 'circle',
-				square: 'square'
+			transitionTimingFunction: {
+				'out-expo': 'cubic-bezier(0.19, 1, 0.22, 1)',
+				'out-quad': 'cubic-bezier(0.5, 1, 0.89, 1)',
 			},
-			gridTemplateColumns: {
-				'auto-center': '1fr auto 1fr'
-			},
-			padding: {
-				'1/2': '50%',
-				'1/3': '33.333333%',
-				'2/3': '66.666667%',
-				'4/3': '133.333333%',
-				'1/4': '25%',
-				'2/4': '50%',
-				'3/4': '75%',
-				'5/4': '125%',
-				'1/5': '20%',
-				'2/5': '40%',
-				'3/5': '60%',
-				'4/5': '80%',
-				'6/5': '120%',
-				'1/6': '16.666667%',
-				'2/6': '33.333333%',
-				'3/6': '50%',
-				'4/6': '66.666667%',
-				'5/6': '83.333333%',
-				'1/12': '8.333333%',
-				'2/12': '16.666667%',
-				'3/12': '25%',
-				'4/12': '33.333333%',
-				'5/12': '41.666667%',
-				'6/12': '50%',
-				'7/12': '58.333333%',
-				'8/12': '66.666667%',
-				'9/12': '75%',
-				'10/12': '83.333333%',
-				'11/12': '91.666667%',
-				'9/16': '56.25%',
-				30: '30%',
-				full: '100%'
-			},
-			screens: {
-				touch: { raw: '(hover: none)' }
-			}
-		}
+		},
 	},
-	variants: {
-		padding: ['responsive', 'first'],
-		margin: ['responsive', 'first'],
-		accessibility: ['responsive', 'focus', 'group-focus']
-	},
-	plugins: []
+	plugins: [require('postcss-focus-visible')],
 };

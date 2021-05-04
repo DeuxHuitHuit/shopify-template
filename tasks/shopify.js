@@ -11,34 +11,48 @@ module.exports = function shopify(grunt) {
 	};
 
 	const shopifyAuth = (options) => {
-		const auth = 'Basic ' + Buffer.from(options.auth.api_key + ':' + options.auth.password).toString('base64');
+		const auth =
+			'Basic ' +
+			Buffer.from(options.auth.api_key + ':' + options.auth.password).toString('base64');
 		return {
 			headers: {
-				'Authorization': auth
-			}
+				Authorization: auth,
+			},
 		};
 	};
 
 	const shopifyRequest = (key, file, fx, env) => {
 		const data = {
 			asset: {
-				key: key
-			}
+				key: key,
+			},
 		};
 
 		if (!!file.endsWith('.css') || file.endsWith('tailwind.config.js')) {
-			file = './assets/css/theme-no-purge.css';
+			file = './assets/css/pre-build/main.css';
 		}
 
 		const isBytes = !!isBinary.isBinaryFileSync(file);
-		data.asset[!!isBytes ? 'attachment' : 'value'] = grunt.file.read(file, { encoding: isBytes ? 'base64' : 'utf8' });
+		data.asset[!!isBytes ? 'attachment' : 'value'] = grunt.file.read(file, {
+			encoding: isBytes ? 'base64' : 'utf8',
+		});
 
-		if (fx === 'deploy' && key === 'snippets/js.liquid' && (!!env && env != 'default')) {
-			data.asset.value = '{{ \'theme.min.js\' | asset_url | script_tag }}\n';
+		if (
+			fx === 'deploy' &&
+			key === 'snippets/js.liquid' &&
+			!!env &&
+			!['default', 'development'].includes(env)
+		) {
+			data.asset.value = "{{ 'theme.min.js' | asset_url | script_tag }}\n";
 		}
 
-		if (fx === 'deploy' && key === 'snippets/css.liquid' && (!!env && env != 'default')) {
-			data.asset.value = '{{ \'theme.min.css\' | asset_url | stylesheet_tag }}\n';
+		if (
+			fx === 'deploy' &&
+			key === 'snippets/css.liquid' &&
+			!!env &&
+			!['default', 'development'].includes(env)
+		) {
+			data.asset.value = "{{ 'theme.min.css' | asset_url | stylesheet_tag }}\n";
 		}
 
 		return data;
@@ -50,7 +64,7 @@ module.exports = function shopify(grunt) {
 		let filename = filePath[filePath.length - 1];
 
 		if (!!file.endsWith('.css') || file.endsWith('tailwind.config.js')) {
-			filename = 'theme-no-purge.css';
+			filename = 'main.css';
 		}
 
 		if (folder !== 'assets') {
@@ -71,7 +85,6 @@ module.exports = function shopify(grunt) {
 		options.files = file || options.files || [];
 
 		if (typeof options.files === 'string') {
-
 			if (options.files.split('.').length === 1) {
 				grunt.log.writeln(`${options.files} not a file. Skipping.`);
 				done();
@@ -97,9 +110,16 @@ module.exports = function shopify(grunt) {
 
 			try {
 				if (options.mode === 'deleted') {
-					await axios.delete(url + (!!file ? ('?asset[key]=' + key) : ''), shopifyAuth(options));
+					await axios.delete(
+						url + (!!file ? '?asset[key]=' + key : ''),
+						shopifyAuth(options),
+					);
 				} else {
-					const r = await axios.put(url, shopifyRequest(key, file, fx, env), shopifyAuth(options));
+					const r = await axios.put(
+						url,
+						shopifyRequest(key, file, fx, env),
+						shopifyAuth(options),
+					);
 				}
 			} catch (error) {
 				grunt.log.error(error);
@@ -109,11 +129,12 @@ module.exports = function shopify(grunt) {
 			}
 
 			grunt.log.ok(key + ': ' + (!!options.mode ? options.mode : 'uploaded'));
+			// Necessary because of Sophify's api rate limiting
 			await sleep(300);
 		}
 
 		if (options.files.length === 1) {
-			await sleep(2000);
+			await sleep(1000);
 		}
 
 		if (fx === 'deploy') {

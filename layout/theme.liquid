@@ -24,16 +24,23 @@
 		</script>
 	</head>
 	<body class="{{ template.name }} {{ template.suffix }}">
-		{% render 'header' %}
+		<div id="site">
+			{% render 'header' %}
 
-		<main role="main">
-			{{ content_for_layout }}
-		</main>
+			<main>
+				{{ content_for_layout }}
+			</main>
 
-		{% render 'footer' %}
-
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+			{% render 'footer' %}
+		</div>
 		{% render 'js' %}
+		<script>
+			(() => {
+				'use strict';
+				App.debug(true);
+				App.run('#site');
+			})();
+		</script>
 		{% render 'store-schemas' %}
 	</body>
 </html>
