@@ -25,6 +25,7 @@ module.exports = function shopify(grunt) {
 				maxstatements: 100,
 				maxlen: 100,
 				nonbsp: true,
+				laxbreak: true, // Allow prettier ternary formatting
 
 				// relax options
 				regexp: true,
