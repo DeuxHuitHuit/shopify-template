@@ -27,7 +27,7 @@ module.exports = (grunt) => {
 					grunt.log.error(`Error while fetching ${lib}`);
 				}
 			} catch (err) {
-				console.log(err.message);
+				grunt.log.error(err.message);
 			}
 		}
 
