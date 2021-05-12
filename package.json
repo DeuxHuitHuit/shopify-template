@@ -36,7 +36,7 @@
 		"grunt-csso": "^2.2.4",
 		"grunt-purgecss": "^2.3.0",
 		"isbinaryfile": "^4.0.6",
-		"postcss": "^7.0.32",
+		"postcss": "^8.2.10",
 		"postcss-import": "^12.0.1",
 		"postcss-nested": "^4.2.3",
 		"tailwindcss": "^1.5.2"
