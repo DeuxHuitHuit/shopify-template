@@ -1,16 +1,15 @@
 /**
-* product-recommendations
-* @author Deux Huit Huit
-*/
+ * product-recommendations
+ * @author Deux Huit Huit
+ */
 (function ($, undefined) {
-
 	'use strict';
 
 	var scope = $('body');
 
 	var sels = {
 		ctn: '.js-product-recommendations',
-		template: '.js-product-recommendations-template'
+		template: '.js-product-recommendations-template',
 	};
 
 	var formatMoney = function (money) {
@@ -69,7 +68,7 @@
 
 					t.append(productRecommendation);
 				});
-			}
+			},
 		});
 	};
 
@@ -80,9 +79,8 @@
 	App.register(function () {
 		return {
 			app: {
-				init: init
-			}
+				init: init,
+			},
 		};
 	});
-
 })(jQuery);

@@ -1,9 +1,8 @@
 /**
-* filters
-* @author Deux Huit Huit
-*/
+ * filters
+ * @author Deux Huit Huit
+ */
 (function ($, undefined) {
-
 	'use strict';
 
 	var scope = $('body');
@@ -11,7 +10,7 @@
 	var sels = {
 		filter: '.js-filter',
 		ctn: '.js-filter-ctn',
-		content: '.js-filter-content'
+		content: '.js-filter-content',
 	};
 
 	var onFilterChange = function () {
@@ -29,7 +28,7 @@
 				content.empty();
 				content.append($(data.find(sels.content).html()));
 				window.history.replaceState(null, '', url);
-			}
+			},
 		});
 	};
 
@@ -40,9 +39,8 @@
 	App.register(function () {
 		return {
 			app: {
-				init: init
-			}
+				init: init,
+			},
 		};
 	});
-
 })(jQuery);

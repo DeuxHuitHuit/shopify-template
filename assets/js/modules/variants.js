@@ -1,9 +1,8 @@
 /**
-* variants
-* @author Deux Huit Huit
-*/
+ * variants
+ * @author Deux Huit Huit
+ */
 (function ($, undefined) {
-
 	'use strict';
 
 	var scope = $('html');
@@ -11,13 +10,12 @@
 	var sels = {
 		data: '.js-variants-data',
 		selectors: '.js-variant-selector',
-		canonical: 'link[rel="canonical"]'
+		canonical: 'link[rel="canonical"]',
 	};
 
 	var variants = JSON.parse(scope.find(sels.data).html() || '[]');
 
 	var selectVariant = function () {
-
 		if (!variants.length) {
 			return;
 		}
@@ -53,9 +51,8 @@
 	App.register(function () {
 		return {
 			app: {
-				init: init
-			}
+				init: init,
+			},
 		};
 	});
-
 })(jQuery);

@@ -3,24 +3,26 @@ module.exports = (grunt) => {
 		babel: {
 			options: {
 				sourceMap: false,
-				presets: [[
-					'@babel/preset-env',
-					{
-						modules: false,
-						targets: {
-							ie: 11
-						}
-					}
-				]],
+				presets: [
+					[
+						'@babel/preset-env',
+						{
+							modules: false,
+							targets: {
+								chrome: 80,
+							},
+						},
+					],
+				],
 				minified: true,
 				comments: false,
-				plugins: []
+				plugins: [],
 			},
 			dist: {
 				files: {
-					'assets/js/theme.min.js': 'assets/js/theme.js'
-				}
-			}
-		}
+					'assets/js/theme.min.js': 'assets/js/theme.js',
+				},
+			},
+		},
 	});
 };

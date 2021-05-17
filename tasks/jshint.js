@@ -4,7 +4,7 @@ module.exports = function shopify(grunt) {
 	grunt.config.merge({
 		jshint: {
 			options: {
-				esversion: 6,
+				esversion: 9,
 				bitwise: false,
 				camelcase: false,
 				curly: true,
@@ -22,9 +22,10 @@ module.exports = function shopify(grunt) {
 				undef: true,
 				maxparams: 5,
 				maxdepth: 5,
-				maxstatements: 30,
+				maxstatements: 100,
 				maxlen: 100,
 				nonbsp: true,
+				laxbreak: true, // Allow prettier ternary formatting
 
 				// relax options
 				regexp: true,
@@ -46,11 +47,10 @@ module.exports = function shopify(grunt) {
 					module: true,
 					google: true,
 					CSS3: true,
-					Shopify: true
-				}
+					Shopify: true,
+				},
 			},
-			all: grunt.config.get('jsFiles')
-		}
+			all: grunt.config.get('jsFiles'),
+		},
 	});
-
 };

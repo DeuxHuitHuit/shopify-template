@@ -1,33 +1,43 @@
 ::selection {
-	@apply bg-main-reverse;
-	@apply text-main-reverse;
+	@apply bg-black;
+	@apply text-white;
 }
 ::-moz-selection {
-	@apply bg-main-reverse;
-	@apply text-main-reverse;
+	@apply bg-black;
+	@apply text-white;
+}
+
+@media screen and (prefers-reduced-motion: reduce), (update: slow) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.001ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.001ms !important;
+		scroll-behavior: auto !important;
+	}
 }
 
 html {
 	--unit-root: 1;
 	--security-root: 60;
 	--fluid-breakpoint-root: 1560;
-	--perimeter-root: calc(
-		var(--fluid-breakpoint-root) - var(--security-root) * 2
-	);
-	--unit-in-vw: calc(
-		var(--unit-root) * 100 / var(--fluid-breakpoint-root) * 1vw
-	);
+	--perimeter-root: calc(var(--fluid-breakpoint-root) - var(--security-root) * 2);
+	--unit-in-vw: calc(var(--unit-root) * 100 / var(--fluid-breakpoint-root) * 1vw);
 	--unit-in-px: calc(var(--unit-root) * 1px);
 
 	--ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+	--ease-out-quad: cubic-bezier(0.5, 1, 0.89, 1);
 
 	font-size: calc(var(--unit-in-vw) * 3);
-	scroll-behavior: smooth;
+
+	-webkit-font-smoothing: antialiased;
+	-webkit-tap-highlight-color: transparent;
 }
 
 body {
-	@apply text-current;
-	@apply font-sans;
+	@apply text-40;
+	@apply font-base;
 }
 
 /* Tablet */

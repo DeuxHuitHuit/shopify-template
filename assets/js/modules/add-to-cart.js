@@ -1,16 +1,15 @@
 /**
-* add-to-cart
-* @author Deux Huit Huit
-*/
+ * add-to-cart
+ * @author Deux Huit Huit
+ */
 (function ($, undefined) {
-
 	'use strict';
 
 	var scope = $('body');
 
 	var sels = {
 		btn: '.js-add-to-cart',
-		qte: '.js-add-to-cart-qte'
+		qte: '.js-add-to-cart-qte',
 	};
 
 	var onVariantSelected = function (variant) {
@@ -18,7 +17,11 @@
 		btn.attr('data-id', variant.id);
 		btn.prop('disabled', !variant.available);
 		scope.find(sels.qte).val(1);
-		btn.text(!!variant.available ? btn.attr('data-available-text') : btn.attr('data-out-of-stock-text')); // jshint ignore:line
+		btn.text(
+			!!variant.available
+				? btn.attr('data-available-text')
+				: btn.attr('data-out-of-stock-text'),
+		); // jshint ignore:line
 	};
 
 	var onClick = function (event) {
@@ -52,7 +55,7 @@
 			},
 			complete: function () {
 				t.removeClass('is-loading');
-			}
+			},
 		});
 
 		return false;
@@ -65,12 +68,11 @@
 	App.register(function () {
 		return {
 			app: {
-				init: init
+				init: init,
 			},
 			variant: {
-				selected: onVariantSelected
-			}
+				selected: onVariantSelected,
+			},
 		};
 	});
-
 })(jQuery);

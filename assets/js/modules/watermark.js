@@ -6,7 +6,7 @@
 	'use strict';
 
 	var sels = {
-		ctn: '.js-watermark-ctn'
+		ctn: '.js-watermark-ctn',
 	};
 
 	var init = function () {
@@ -19,7 +19,7 @@
 					url: t.attr('data-href'),
 					success: function (data) {
 						t.append($(data).find('watermark').html());
-					}
+					},
 				});
 			}
 		});
@@ -28,8 +28,8 @@
 	App.register(function () {
 		return {
 			app: {
-				init: init
-			}
+				init: init,
+			},
 		};
 	});
 })(jQuery);
